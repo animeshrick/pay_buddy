@@ -1,0 +1,116 @@
+name: pay_buddy
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.4
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # bloc
+  equatable: ^2.0.7
+  flutter_bloc: ^8.1.6
+
+  # http
+  http: ^1.2.2
+  #route manager web
+  go_router: ^14.6.2
+  #firebase
+  firebase_core:
+  firebase_messaging:
+  #notifications
+  flutter_local_notifications: ^18.0.1
+  #path
+  path_provider: ^2.1.5
+  #App Details picker
+  package_info_plus: ^8.1.1
+  #html
+  universal_html: ^2.2.4
+  uuid: ^4.5.1
+  #text front
+  google_fonts: ^6.2.1
+  #local storage
+  shared_preferences: ^2.3.3
+
+  #check connectivity
+  connectivity_plus: ^6.1.0
+  #svg
+  flutter_svg: ^2.0.16
+
+  #open url
+  url_launcher: ^6.3.1
+
+  intl: ^0.20.1
+  pin_code_fields: ^8.0.1
+  geocoding: ^3.0.0
+  geolocator: ^13.0.2
+
+#  custom_platform_device_id: ^1.0.8
+
+  device_info_plus: ^11.1.1
+  file_picker: ^8.1.4
+  universal_io: ^2.2.2
+
+  flutter_widget_from_html_core: ^0.15.2
+  share_plus:
+  camera: ^0.11.0+2
+  in_app_review: ^2.0.10
+  animated_text_kit: ^4.2.2
+  image_picker: ^1.1.2
+
+  paytm_allinonesdk: ^1.2.8
+  flutter_downloader: ^1.11.8
+
+  flutter_inappwebview: ^6.1.5
+  web: ^1.1.0
+  permission_handler: ^11.3.1
+  #update:
+  in_app_update: ^4.2.3
+  upgrader: ^11.3.1
+
+  #socket
+  socket_io_client: ^2.0.3+1
+#  audioplayers: ^6.0.0
+#  flutter_volume_controller: ^1.3.1
+  open_filex: ^4.5.0
+
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+flutter:
+
+  uses-material-design: true
+
+
+  assets:
+   - assets/design/
