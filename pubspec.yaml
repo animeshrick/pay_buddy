@@ -59,7 +59,8 @@ dependencies:
   shared_preferences: ^2.3.3
 
   #check connectivity
-  connectivity_plus: ^6.1.0
+  connectivity_plus:
+#  connectivity_plus: ^6.1.0
   #svg
   flutter_svg: ^2.0.16
 
@@ -79,7 +80,8 @@ dependencies:
 
   flutter_widget_from_html_core: ^0.15.2
   share_plus:
-  camera: ^0.11.0+2
+#  camera: ^0.11.0+2
+#  camera:
   in_app_review: ^2.0.10
   animated_text_kit: ^4.2.2
   image_picker: ^1.1.2

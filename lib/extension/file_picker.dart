@@ -1,4 +1,4 @@
-import 'package:camera/camera.dart';
+// import 'package:camera/camera.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -66,108 +66,108 @@ Future<List<CustomFile>?> pickMultipleFile() async {
   return null;
 }
 
-Future<CustomFile?> customFilePicker() async {
-  try {
-    FocusManager.instance.primaryFocus?.unfocus();
-    List<CameraDescription> cameraDescription = [];
-    try {
-      cameraDescription = await availableCameras();
-    } on CameraException catch (e) {
-      AppLog.i(e);
-    }
-    if (cameraDescription.isEmpty) {
-      return await pickSingleFile();
-    } else {
-      BuildContext context = CurrentContext().context;
-
-      if (context.mounted) {
-        String? result = await showModalBottomSheet<String>(
-          backgroundColor: Colors.white,
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              height: 150,
-              padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context, 'Camera');
-                    },
-                    child: SizedBox(
-                      width: (ScreenUtils.nw / 2) - 8,
-                      child: Column(
-                        children: [
-                          IconButton(
-                              color: Colors.blueGrey,
-                              iconSize: 40,
-                              onPressed: () {
-                                Navigator.pop(context, 'Camera');
-                              },
-                              icon: const Icon(
-                                  CupertinoIcons.photo_camera_solid)),
-                          8.ph,
-                          customText(
-                            "Capture Photo.",
-                            color: HexColor.fromHex(ColorConst.primaryDark),
-                            size: 14,
-                            fontWeight: FontWeight.w500,
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context, 'Folder');
-                    },
-                    child: SizedBox(
-                      width: (ScreenUtils.nw / 2) - 8,
-                      child: Column(
-                        children: [
-                          IconButton(
-                              color: Colors.blueGrey,
-                              iconSize: 40,
-                              onPressed: () {
-                                Navigator.pop(context, 'Folder');
-                              },
-                              icon: const Icon(CupertinoIcons.folder_solid)),
-                          8.ph,
-                          customText(
-                            "Choose file from device.",
-                            color: HexColor.fromHex(ColorConst.primaryDark),
-                            size: 14,
-                            fontWeight: FontWeight.w500,
-                            textAlign: TextAlign.center,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        );
-        if (result == "Camera") {
-          final ImagePicker picker = ImagePicker();
-          XFile? image = await picker.pickImage(source: ImageSource.camera);
-          if (image != null) {
-            return CustomFile(
-              name: image.name,
-              path: kIsWeb ? null : image.path,
-              bytes: kIsWeb ? (await image.readAsBytes()) : null,
-            );
-          }
-        } else if (result == "Folder") {
-          return await pickSingleFile();
-        }
-      }
-    }
-  } catch (e) {
-    AppLog.e(e, error: e);
-  }
-  return null;
-}
+// Future<CustomFile?> customFilePicker() async {
+//   try {
+//     FocusManager.instance.primaryFocus?.unfocus();
+//     List<CameraDescription> cameraDescription = [];
+//     try {
+//       cameraDescription = await availableCameras();
+//     } on CameraException catch (e) {
+//       AppLog.i(e);
+//     }
+//     if (cameraDescription.isEmpty) {
+//       return await pickSingleFile();
+//     } else {
+//       BuildContext context = CurrentContext().context;
+//
+//       if (context.mounted) {
+//         String? result = await showModalBottomSheet<String>(
+//           backgroundColor: Colors.white,
+//           context: context,
+//           builder: (BuildContext context) {
+//             return Container(
+//               height: 150,
+//               padding: const EdgeInsets.only(top: 16, left: 8, right: 8),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   InkWell(
+//                     onTap: () {
+//                       Navigator.pop(context, 'Camera');
+//                     },
+//                     child: SizedBox(
+//                       width: (ScreenUtils.nw / 2) - 8,
+//                       child: Column(
+//                         children: [
+//                           IconButton(
+//                               color: Colors.blueGrey,
+//                               iconSize: 40,
+//                               onPressed: () {
+//                                 Navigator.pop(context, 'Camera');
+//                               },
+//                               icon: const Icon(
+//                                   CupertinoIcons.photo_camera_solid)),
+//                           8.ph,
+//                           customText(
+//                             "Capture Photo.",
+//                             color: HexColor.fromHex(ColorConst.primaryDark),
+//                             size: 14,
+//                             fontWeight: FontWeight.w500,
+//                             textAlign: TextAlign.center,
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                   InkWell(
+//                     onTap: () {
+//                       Navigator.pop(context, 'Folder');
+//                     },
+//                     child: SizedBox(
+//                       width: (ScreenUtils.nw / 2) - 8,
+//                       child: Column(
+//                         children: [
+//                           IconButton(
+//                               color: Colors.blueGrey,
+//                               iconSize: 40,
+//                               onPressed: () {
+//                                 Navigator.pop(context, 'Folder');
+//                               },
+//                               icon: const Icon(CupertinoIcons.folder_solid)),
+//                           8.ph,
+//                           customText(
+//                             "Choose file from device.",
+//                             color: HexColor.fromHex(ColorConst.primaryDark),
+//                             size: 14,
+//                             fontWeight: FontWeight.w500,
+//                             textAlign: TextAlign.center,
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
+//         );
+//         if (result == "Camera") {
+//           final ImagePicker picker = ImagePicker();
+//           XFile? image = await picker.pickImage(source: ImageSource.camera);
+//           if (image != null) {
+//             return CustomFile(
+//               name: image.name,
+//               path: kIsWeb ? null : image.path,
+//               bytes: kIsWeb ? (await image.readAsBytes()) : null,
+//             );
+//           }
+//         } else if (result == "Folder") {
+//           return await pickSingleFile();
+//         }
+//       }
+//     }
+//   } catch (e) {
+//     AppLog.e(e, error: e);
+//   }
+//   return null;
+// }
