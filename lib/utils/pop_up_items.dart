@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:toastification/toastification.dart';
 
 import '../const/assects_const.dart';
 import '../const/color_const.dart';
@@ -27,6 +28,65 @@ class PopUpItems {
       margin: const EdgeInsets.all(5),
     );
     ScaffoldMessenger.of(CurrentContext().context).showSnackBar(snackBar);
+  }
+
+  void toastfy(
+      {required String message,
+      required Color color,
+      int? durationSeconds,
+      ToastificationType? type}) {
+    toastification.show(
+      context: CurrentContext().context,
+      type: type,
+      style: ToastificationStyle.flatColored,
+      autoCloseDuration: Duration(seconds: durationSeconds ?? 2),
+      title: CustomTextEnum(message, maxLines: 4).textXS(),
+      description: RichText(text: const TextSpan(text: '')),
+      alignment: Alignment.topRight,
+      direction: TextDirection.ltr,
+      animationDuration: const Duration(milliseconds: 300),
+      animationBuilder: (context, animation, alignment, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      icon: type == ToastificationType.success
+          ? const Icon(Icons.check)
+          : type == ToastificationType.warning
+              ? const Icon(Icons.warning_amber)
+              : const Icon(Icons.account_tree_outlined),
+      showIcon: true,
+      // primaryColor: Colors.green,
+      backgroundColor: color,
+      foregroundColor: Colors.black,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      borderRadius: BorderRadius.circular(12),
+      boxShadow: const [
+        BoxShadow(
+          color: Color(0x07000000),
+          blurRadius: 16,
+          offset: Offset(0, 16),
+          spreadRadius: 0,
+        )
+      ],
+      showProgressBar: true,
+      closeButtonShowType: CloseButtonShowType.onHover,
+      closeOnClick: false,
+      pauseOnHover: true,
+      dragToClose: true,
+      applyBlurEffect: true,
+      callbacks: ToastificationCallbacks(
+        onTap: (toastItem) => print('Toast ${toastItem.id} tapped'),
+        onCloseButtonTap: (toastItem) =>
+            print('Toast ${toastItem.id} close button tapped'),
+        onAutoCompleteCompleted: (toastItem) =>
+            print('Toast ${toastItem.id} auto complete completed'),
+        onDismissed: (toastItem) => print('Toast ${toastItem.id} dismissed'),
+      ),
+    );
+    toastification.dismissAll();
   }
 
   Future<DateTime?> buildMaterialDatePicker(
@@ -60,21 +120,21 @@ class PopUpItems {
     showDialog<String>(
       context: CurrentContext().context,
       builder: (BuildContext context) => AlertDialog(
-        title: customText(msg,
+        title: CustomText(msg,
             color: HexColor.fromHex(ColorConst.primaryDark),
             size: 13,
             textAlign: TextAlign.start),
         content: content != null
-            ? customText(content,
+            ? CustomText(content,
                 color: HexColor.fromHex(ColorConst.primaryDark),
                 size: 12,
                 textAlign: TextAlign.start)
             : null,
         actions: <Widget>[
-          customElevatedButton(
+          CustomGOEButton(
             radius: 10,
-            child: customText(TextUtils.ok, color: Colors.white, size: 20),
-            color: Colors.blueAccent,
+            child: CustomText(TextUtils.ok, color: Colors.white, size: 20),
+            backGroundColor: Colors.blueAccent,
             onPressed: () {
               Navigator.pop(context);
             },
@@ -115,12 +175,12 @@ class ToastMassage extends StatelessWidget {
                     height: 40,
                     width: 40,
                     AssetsConst.genuIcon,
-                    color: HexColor.fromHex(ColorConst.deepBlue),
+                    color: HexColor.fromHex(ColorConst.baseHexColor),
                   )),
               10.pw,
               SizedBox(
                 width: ScreenUtils.aw * 0.5,
-                child: customText(message,
+                child: CustomText(message,
                     color: Colors.white, size: 16, fontWeight: FontWeight.w600),
               ),
             ],
@@ -171,18 +231,18 @@ class _EmailPickerState extends State<EmailPicker> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SizedBox(
-                      child: customTextFormField(
+                      child: CustomTextFormField(
                           title: TextUtils.email,
                           hintText: TextUtils.enter_email,
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           validator: Validator().emailValidator)),
                   10.ph,
-                  customElevatedButton(
-                      minimumSize: const Size(80, 35),
+                  CustomGOEButton(
+                      size: const Size(80, 35),
                       radius: 10,
-                      color: Colors.blueAccent,
-                      child: customText(TextUtils.ok,
+                      backGroundColor: Colors.blueAccent,
+                      child: CustomText(TextUtils.ok,
                           color: Colors.white, size: 20),
                       onPressed: () {
                         if (key.currentState?.validate() == true) {

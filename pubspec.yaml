@@ -37,6 +37,11 @@ dependencies:
   equatable: ^2.0.7
   flutter_bloc: ^8.1.6
 
+  sms_autofill: ^2.4.1
+
+  toastification: ^2.3.0
+  cached_network_image:
+
   # http
   http: ^1.2.2
   #route manager web
@@ -55,6 +60,7 @@ dependencies:
   uuid: ^4.5.1
   #text front
   google_fonts: ^6.2.1
+  lucide_icons_flutter: ^1.2.5
   #local storage
   shared_preferences: ^2.3.3
 

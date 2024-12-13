@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:toastification/toastification.dart';
 
 import '../service/app_updater.dart';
 import 'const/color_const.dart';
@@ -125,7 +126,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp.router(
+    return ToastificationWrapper(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: TextUtils.appTitle,
         themeMode: ThemeMode.system,
@@ -140,7 +142,7 @@ class _MyAppState extends State<MyApp> {
           brightness: Brightness.dark,
         ),
         routerConfig: RouterManager.getInstance.router,
-
+      ),
     );
   }
 }

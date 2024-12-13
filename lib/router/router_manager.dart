@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pay_buddy/modules/auth/ui/verification_view.dart';
 
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
@@ -33,10 +33,17 @@ class RouterManager {
         },
       ),
       GoRoute(
-        name: RouteName.leaderBoard,
-        path: RouteName.leaderBoard,
+        name: RouteName.auth,
+        path: RouteName.auth,
         builder: (BuildContext context, GoRouterState state) {
           return Auth();
+        },
+      ),
+      GoRoute(
+        name: RouteName.verification,
+        path: RouteName.verification,
+        builder: (BuildContext context, GoRouterState state) {
+          return VerificationView();
         },
       ),
 
@@ -98,8 +105,9 @@ class RouterManager {
                 },
                 icon: const Icon(Icons.clear))
             : Container(),
-        title: customText(TextUtils.notFound,
-            color: HexColor.fromHex(ColorConst.primaryDark), size: 20),
+        title: CustomTextEnum(TextUtils.notFound,
+                color: HexColor.fromHex(ColorConst.primaryDark))
+            .textMD(),
       ),
       body: Center(
         child: CustomErrorWidget(),

@@ -73,4 +73,9 @@ class CustomRoute {
     AppLog.i(location, tag: "CurrentRoute");
     return location;
   }
+
+  void goto(path) {
+    BuildContext context = CurrentContext().context;
+    kIsWeb ? context.goNamed(path) : context.pushNamed(path);
+  }
 }

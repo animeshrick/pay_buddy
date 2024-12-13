@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -36,8 +35,8 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
 
     Future.delayed(const Duration(seconds: 3), () {
       kIsWeb
-          ? CurrentContext().context.goNamed(RouteName.leaderBoard)
-          : CurrentContext().context.pushNamed(RouteName.leaderBoard);
+          ? CurrentContext().context.goNamed(RouteName.auth)
+          : CurrentContext().context.pushNamed(RouteName.auth);
     });
   }
 

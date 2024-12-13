@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 
 import '../extension/spacing.dart';
 
-Widget customStepper(
-        {List<CustomStepperContent>? customStepperContent,
-        ScrollPhysics? physics,
-        bool shrinkWrap = false,
-        Color activeLineColor = Colors.green,
-        Color inActiveLineColor = Colors.grey}) =>
-    ListView.separated(
+class CustomVerticalStepper extends StatelessWidget {
+  final List<CustomStepperContent>? customStepperContent;
+  final double? lineWidth;
+  final ScrollPhysics? physics;
+  final bool shrinkWrap;
+  final Color activeLineColor;
+  final Color inActiveLineColor;
+
+  const CustomVerticalStepper({
+    super.key,
+    this.customStepperContent,
+    this.physics,
+    this.lineWidth,
+    this.shrinkWrap = false,
+    this.activeLineColor = Colors.green,
+    this.inActiveLineColor = Colors.grey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
         physics: physics,
         shrinkWrap: shrinkWrap,
         itemBuilder: (context, index) {
@@ -20,7 +34,7 @@ Widget customStepper(
               children: [
                 Expanded(
                   child: Container(
-                      width: 2,
+                      width: lineWidth ?? 2,
                       color: index == 0
                           ? Colors.transparent
                           : customStepperContent
@@ -33,7 +47,7 @@ Widget customStepper(
                 if (content?.leading != null) content!.leading,
                 Expanded(
                   child: Container(
-                      width: 2,
+                      width: lineWidth ?? 2,
                       color: (index + 1) == customStepperContent?.length
                           ? Colors.transparent
                           : content?.isActive == true
@@ -48,6 +62,73 @@ Widget customStepper(
           return 0.ph;
         },
         itemCount: customStepperContent?.length ?? 0);
+  }
+}
+
+class CustomHorizontalStepper extends StatelessWidget {
+  final List<CustomStepperContent>? customStepperContent;
+  final double? lineHeight, lineWidth;
+  final ScrollPhysics? physics;
+  final bool shrinkWrap;
+  final Color activeLineColor;
+  final Color inActiveLineColor;
+
+  const CustomHorizontalStepper({
+    super.key,
+    this.customStepperContent,
+    this.physics,
+    this.lineHeight,
+    this.lineWidth = 30,
+    this.shrinkWrap = false,
+    this.activeLineColor = Colors.green,
+    this.inActiveLineColor = Colors.grey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+        physics: physics,
+        shrinkWrap: shrinkWrap,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          CustomStepperContent? content =
+              customStepperContent?.elementAt(index);
+          return Column(
+            children: [
+              Row(
+                children: [
+                  Container(
+                      width: (lineWidth ?? 0.1) / 2,
+                      height: lineHeight ?? 2,
+                      color: index == 0
+                          ? Colors.transparent
+                          : content?.isActive == true
+                              ? activeLineColor
+                              : inActiveLineColor),
+                  if (content?.leading != null) content!.leading,
+                  Container(
+                      width: (lineWidth ?? 0.1) / 2,
+                      height: lineHeight ?? 2,
+                      color: (index + 1) == customStepperContent?.length
+                          ? Colors.transparent
+                          : content?.isActive == true
+                              ? activeLineColor
+                              : inActiveLineColor)
+                ],
+              ),
+              if (content?.content != null)
+                SizedBox(
+                    width: (lineWidth ?? 0),
+                    child: Center(child: content!.content)),
+            ],
+          );
+        },
+        separatorBuilder: (context, index) {
+          return 0.pw;
+        },
+        itemCount: customStepperContent?.length ?? 0);
+  }
+}
 
 class CustomStepperContent {
   CustomStepperContent(

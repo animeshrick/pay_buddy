@@ -114,7 +114,6 @@ class ValueHandler {
     return null;
   }
 
-
   String? stringDateTimeFormatter(
       {required String dateTime, String? newPattern}) {
     try {

@@ -8,9 +8,8 @@ import '../bloc/custom_expansion_tile_bloc.dart';
 /// [childrenPadding] is padding for children ,
 /// [tilePadding] is padding for tile
 ///
-// ignore: must_be_immutable
 class CustomExpansionTile extends StatelessWidget {
-  CustomExpansionTile({
+  const CustomExpansionTile({
     super.key,
     this.leading,
     this.title,
@@ -23,13 +22,15 @@ class CustomExpansionTile extends StatelessWidget {
     this.childrenPadding,
     this.tilePadding,
     this.childrenCrossAxisAlignment = CrossAxisAlignment.center,
+    this.onChange,
   });
 
-  Widget? leading, title, subtitle, activeTrailing, inActiveTrailing;
-  List<Widget>? children;
-  bool? isExpanded;
-  EdgeInsetsGeometry? contentPadding, childrenPadding, tilePadding;
-  CrossAxisAlignment childrenCrossAxisAlignment;
+  final Widget? leading, title, subtitle, activeTrailing, inActiveTrailing;
+  final List<Widget>? children;
+  final bool? isExpanded;
+  final EdgeInsetsGeometry? contentPadding, childrenPadding, tilePadding;
+  final CrossAxisAlignment childrenCrossAxisAlignment;
+  final void Function(bool value)? onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +56,9 @@ class CustomExpansionTile extends StatelessWidget {
                     context
                         .read<CustomExpansionTileBloc>()
                         .add(ChangeExpanded(expanded: !state.isExpanded));
+                    if (onChange != null) {
+                      onChange!(!state.isExpanded);
+                    }
                   },
                 ),
               ),

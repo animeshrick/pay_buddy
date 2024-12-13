@@ -10,5 +10,6 @@ sealed class CustomExpansionTileEvent extends Equatable {
 // ignore: must_be_immutable
 class ChangeExpanded extends CustomExpansionTileEvent {
   ChangeExpanded({this.expanded});
+
   bool? expanded;
 }

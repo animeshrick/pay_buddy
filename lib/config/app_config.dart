@@ -60,7 +60,7 @@ class AppConfig {
       }
       String? deviceId;
 
-      deviceId = "";// await PlatformDeviceId.getDeviceId;
+      deviceId = ""; // await PlatformDeviceId.getDeviceId;
       return deviceId;
     } catch (e, stacktrace) {
       AppLog.e(e.toString(), error: e, stackTrace: stacktrace);

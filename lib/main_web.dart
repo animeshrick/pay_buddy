@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:toastification/toastification.dart';
 
 import 'const/color_const.dart';
 import 'extension/hex_color.dart';
@@ -41,7 +42,8 @@ class _MyWebAppState extends State<MyWebApp> {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp.router(
+    return ToastificationWrapper(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: TextUtils.appTitle,
         scrollBehavior: const MaterialScrollBehavior().copyWith(
@@ -64,7 +66,7 @@ class _MyWebAppState extends State<MyWebApp> {
           brightness: Brightness.dark,
         ),
         routerConfig: RouterManager.getInstance.router,
-
+      ),
     );
   }
 }
