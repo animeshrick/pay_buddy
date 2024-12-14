@@ -174,7 +174,7 @@ class ToastMassage extends StatelessWidget {
                   child: Image.asset(
                     height: 40,
                     width: 40,
-                    AssetsConst.genuIcon,
+                    "AssetsConst.genuIcon",
                     color: HexColor.fromHex(ColorConst.baseHexColor),
                   )),
               10.pw,

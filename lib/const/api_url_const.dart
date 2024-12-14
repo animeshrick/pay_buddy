@@ -2,11 +2,9 @@ class ApiUrlConst {
   static bool isLive = true;
   static String baseUrl = isLive
       ? "https://www.googleapis.com/"
-      : "https://www.stg-googleapis.com/";
+      : "http://127.0.0.1:8000/";
 
-  static String books = "${baseUrl}books/v1/volumes";
-
-  static String reverseGeocode = "https://nominatim.openstreetmap.org/reverse";
+  static String auth_api_url = "auth/api/v2/endpoint/";
 
   static String hostUrl = "https://www.stg-googleapis.com/";
 }

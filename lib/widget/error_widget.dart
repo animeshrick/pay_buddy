@@ -30,7 +30,7 @@ class CustomErrorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomAssetImageView(
-              path: AssetsConst.somethingWentWrong,
+              path: "AssetsConst.somethingWentWrong",
               height: height - 90,
             ),
             if (errorMsg?.isNotEmpty == true)
