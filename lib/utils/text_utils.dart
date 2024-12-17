@@ -38,7 +38,16 @@ class TextUtils {
   static String enter_phone_number = "Enter Phone Number";
 
   // ignore: non_constant_identifier_names
+  static String enter_username = "Enter Username";
+
+  // ignore: non_constant_identifier_names
+  static String enter_full_name = "Enter Full Name";
+
+  // ignore: non_constant_identifier_names
   static String enter_password = "Enter Password";
+
+  // ignore: non_constant_identifier_names
+  static String enter_confirm_password = "Enter Confirm Password";
 
   // ignore: non_constant_identifier_names
   static String your_phone_number = "Your Phone Number";
@@ -91,7 +100,7 @@ class TextUtils {
   static String email = "Email";
 
   // ignore: non_constant_identifier_names
-  static String enter_email = "Enter email";
+  static String enter_email = "Enter Email";
 
   // ignore: non_constant_identifier_names
   static String resend = "Resend";

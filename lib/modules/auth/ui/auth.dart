@@ -14,7 +14,6 @@ import 'package:pay_buddy/widget/custom_button.dart';
 import 'package:pay_buddy/widget/custom_text.dart';
 import 'package:pay_buddy/widget/custom_text_formfield.dart';
 import 'package:pay_buddy/widget/custom_ui.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 import 'package:toastification/toastification.dart';
 
 import '../widgets/terms_and_condition.dart';
@@ -27,71 +26,19 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-  TextEditingController phoneNo = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController username = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController fullName = TextEditingController();
+  TextEditingController pass1 = TextEditingController();
+  TextEditingController pass2 = TextEditingController();
 
   bool isChecked = true;
 
-  // late TextEditingController _otpController;
-  // String? _phoneNumber;
-
-  @override
-  void initState() {
-    super.initState();
-    // _otpController = TextEditingController();
-    // _getPhoneNumberHints(); --- TODO
-  }
-
-  // Get phone number hints using SmsAutoFill
-  Future<void> _getPhoneNumberHints() async {
-    try {
-      String? phoneNumber = await SmsAutoFill().hint;
-      setState(() {
-        phoneNo.text = (phoneNumber ?? "").replaceAll("+91", "");
-      });
-    } catch (e) {
-      print("Error fetching phone number hints: $e");
-    }
-  }
-
-  // Autofill OTP when received
-  Future<void> _startListeningForOTP() async {
-    await SmsAutoFill().listenForCode; // Start listening for OTP code
-  }
-
   @override
   void dispose() {
-    phoneNo.dispose();
+    // phoneNo.dispose();
     super.dispose();
   }
-
-  // String _code = "";
-  // String _app_signature = "{{ app signature }}";
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _init();
-  //   SmsAutoFill().getAppSignature.then((signature) {
-  //     setState(() {
-  //       _app_signature = signature;
-  //       // appSignature = signature;
-  //     });
-  //   });
-  // }
-  //
-  // // Async initialization method
-  // Future<void> _init() async {
-  //   await SmsAutoFill().listenForCode();
-  //   _app_signature = await SmsAutoFill().getAppSignature;
-  //   setState(() {});
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   SmsAutoFill().unregisterListener();
-  //   super.dispose();
-  // }
 
   final formKey = GlobalKey<FormState>();
 
@@ -112,16 +59,27 @@ class _AuthState extends State<Auth> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: CustomTextEnum(
-                          "Welcome to `${TextUtils.appTitle}` – Your smart companion for managing expenses effortlessly! Let's help you track, plan, and save smarter. Ready to take control of your finances? Let's get started!",
+                          "Hi!",
+                          // "Welcome to `${TextUtils.appTitle}` – Your smart companion for managing expenses effortlessly! Let's help you track, plan, and save smarter. Ready to take control of your finances? Let's get started!",
                           color: HexColor.fromHex(ColorConst.baseHexColor),
                           lineGapNeeded: true,
-                        ).textSemiboldMD(),
+                        ).textBoldLG(),
+                      ),
+                    ),Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: CustomTextEnum(
+                          "We want to know about you a little bit.",
+                          // "Welcome to `${TextUtils.appTitle}` – Your smart companion for managing expenses effortlessly! Let's help you track, plan, and save smarter. Ready to take control of your finances? Let's get started!",
+                          color: HexColor.fromHex(ColorConst.baseHexColor),
+                          lineGapNeeded: true,
+                        ).textSemiboldSM(),
                       ),
                     ),
                     34.ph,
                     Container(
                       // width: ScreenUtils.aw * 0.7,
-                      height: isChecked == false ? 235 : 160,
+                      // height: isChecked == false ? 235 : 160,
                       decoration: BoxDecoration(
                           // border: Border.all(
                           //     color: HexColor.fromHex(ColorConst.white)),
@@ -143,12 +101,24 @@ class _AuthState extends State<Auth> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CustomTextFormField(
-                            autofocus: true,
-                            controller: phoneNo,
-                            maxLength: 10,
-                            hintText: "Enter Phone Number",
-                            label: TextUtils.enter_phone_number,
-                            keyboardType: TextInputType.phone,
+                            controller: fullName,
+                            hintText: TextUtils.enter_full_name,
+                            label: TextUtils.enter_full_name,
+                            keyboardType: TextInputType.text,
+                            errorText: null,
+                            validator: (value) {
+                              if ((value) != null) {
+                                return '';
+                              }
+                              return null;
+                            },
+                          ),
+                          8.ph,
+                          CustomTextFormField(
+                            controller: email,
+                            hintText: TextUtils.enter_email,
+                            label: TextUtils.enter_email,
+                            keyboardType: TextInputType.emailAddress,
                             errorText: null,
                             validator: (value) {
                               if (Validator().phoneNumberValidator(value) !=
@@ -157,142 +127,168 @@ class _AuthState extends State<Auth> {
                               }
                               return null;
                             },
-                            prefix: Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  CustomTextEnum('+91',
-                                          color: HexColor.fromHex(
-                                              ColorConst.primaryDark))
-                                      .textSM(),
-                                  CustomTextEnum(' | ',
-                                          color: HexColor.fromHex(
-                                              ColorConst.primaryDark))
-                                      .textSM(),
-                                ],
-                              ),
-                            ),
-                          ),
-                          4.ph,
-                          if (isChecked == false) ...[
-                            CustomTextFormField(
-                                controller: password,
-                                hintText: TextUtils.enter_password,
-                                label: TextUtils.enter_password,
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (Validator()
-                                          .textValidatorAlphanumericWithSpacialCharacters(
-                                              value: value, msg: "") !=
-                                      null) {
-                                    return '';
-                                  }
-                                  return null;
-                                }),
-                            8.ph,
-                          ],
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CustomTextEnum(TextUtils.continue_with_code,
-                                      color: HexColor.fromHex(
-                                          ColorConst.primaryDark))
-                                  .textSM(),
-                              CustomCheckbox(
-                                activeColor:
-                                    HexColor.fromHex(ColorConst.baseHexColor),
-                                value: isChecked,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isChecked = value!;
-                                  });
-                                },
-                              ),
-                            ],
                           ),
                           8.ph,
+
+                          CustomTextFormField(
+                            controller: username,
+                            hintText: TextUtils.enter_username,
+                            label: TextUtils.enter_username,
+                            keyboardType: TextInputType.text,
+                            errorText: null,
+                            validator: (value) {
+                              if ((value) != null) {
+                                return '';
+                              }
+                              return null;
+                            },
+                          ),
+                          8.ph,
+                          CustomTextFormField(
+                            controller: pass1,
+                            hintText: TextUtils.enter_password,
+                            label: TextUtils.enter_password,
+                            keyboardType: TextInputType.text,
+                            errorText: null,
+                            validator: (value) {
+                              if ((value) != null) {
+                                return '';
+                              }
+                              return null;
+                            },
+                          ),
+                          8.ph,
+                          CustomTextFormField(
+                            controller: pass2,
+                            hintText: TextUtils.enter_confirm_password,
+                            label: TextUtils.enter_confirm_password,
+                            keyboardType: TextInputType.text,
+                            errorText: null,
+                            validator: (value) {
+                              if ((value) != null) {
+                                return '';
+                              }
+                              return null;
+                            },
+                          ),
+                          // if (isChecked == false) ...[
+                          //   CustomTextFormField(
+                          //       controller: password,
+                          //       hintText: TextUtils.enter_password,
+                          //       label: TextUtils.enter_password,
+                          //       keyboardType: TextInputType.text,
+                          //       validator: (value) {
+                          //         if (Validator()
+                          //                 .textValidatorAlphanumericWithSpacialCharacters(
+                          //                     value: value, msg: "") !=
+                          //             null) {
+                          //           return '';
+                          //         }
+                          //         return null;
+                          //       }),
+                          //   8.ph,
+                          // ],
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     CustomTextEnum(TextUtils.continue_with_code,
+                          //             color: HexColor.fromHex(
+                          //                 ColorConst.primaryDark))
+                          //         .textSM(),
+                          //     CustomCheckbox(
+                          //       activeColor:
+                          //           HexColor.fromHex(ColorConst.baseHexColor),
+                          //       value: isChecked,
+                          //       onChanged: (value) {
+                          //         setState(() {
+                          //           isChecked = value!;
+                          //         });
+                          //       },
+                          //     ),
+                          //   ],
+                          // ),
+                          // 8.ph,
                         ],
                       ),
                     ),
-                    CustomContainer(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 16),
-                        child: Row(
-                          children: [
-                            const Expanded(child: Divider()),
-                            16.pw,
-                            CustomTextEnum("Or").textSM(),
-                            16.pw,
-                            const Expanded(child: Divider()),
-                          ],
-                        )),
-                    GestureDetector(
-                      onTap: () {},
-                      child: CustomContainer(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          color:
-                              HexColor.fromHex(ColorConst.lighter_baseHexColor),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                                color: HexColor.fromHex(ColorConst.grey4),
-                                blurRadius: 5.0,
-                                offset: const Offset(0, 2),
-                                spreadRadius: 1),
-                          ],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(LucideIcons.mail,
-                                  color:
-                                      HexColor.fromHex(ColorConst.primaryDark)),
-                              12.pw,
-                              CustomTextEnum("Try with Gmail",
-                                      color: HexColor.fromHex(
-                                          ColorConst.primaryDark))
-                                  .textMediumSM(),
-                            ],
-                          )),
-                    ),
-                    22.ph,
-                    GestureDetector(
-                      onTap: () {},
-                      child: CustomContainer(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 16),
-                          margin: const EdgeInsets.symmetric(horizontal: 16),
-                          color:
-                              HexColor.fromHex(ColorConst.lighter_baseHexColor),
-                          borderRadius: BorderRadius.circular(12),
-                          boxShadow: [
-                            BoxShadow(
-                                color: HexColor.fromHex(ColorConst.grey4),
-                                blurRadius: 5.0,
-                                offset: const Offset(0, 2),
-                                spreadRadius: 1),
-                          ],
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(LucideIcons.facebook,
-                                  color:
-                                      HexColor.fromHex(ColorConst.primaryDark)),
-                              12.pw,
-                              CustomTextEnum("Try with Facebook")
-                                  .textMediumSM(),
-                            ],
-                          )),
-                    ),
+                    // CustomContainer(
+                    //     margin: const EdgeInsets.symmetric(
+                    //         horizontal: 16, vertical: 16),
+                    //     child: Row(
+                    //       children: [
+                    //         const Expanded(child: Divider()),
+                    //         16.pw,
+                    //         CustomTextEnum("Or").textSM(),
+                    //         16.pw,
+                    //         const Expanded(child: Divider()),
+                    //       ],
+                    //     )),
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: CustomContainer(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 16, vertical: 16),
+                    //       margin: const EdgeInsets.symmetric(horizontal: 16),
+                    //       color:
+                    //           HexColor.fromHex(ColorConst.lighter_baseHexColor),
+                    //       borderRadius: BorderRadius.circular(12),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //             color: HexColor.fromHex(ColorConst.grey4),
+                    //             blurRadius: 5.0,
+                    //             offset: const Offset(0, 2),
+                    //             spreadRadius: 1),
+                    //       ],
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Icon(LucideIcons.mail,
+                    //               color:
+                    //                   HexColor.fromHex(ColorConst.primaryDark)),
+                    //           12.pw,
+                    //           CustomTextEnum("Try with Gmail",
+                    //                   color: HexColor.fromHex(
+                    //                       ColorConst.primaryDark))
+                    //               .textMediumSM(),
+                    //         ],
+                    //       )),
+                    // ),
+                    // 22.ph,
+                    // GestureDetector(
+                    //   onTap: () {},
+                    //   child: CustomContainer(
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 16, vertical: 16),
+                    //       margin: const EdgeInsets.symmetric(horizontal: 16),
+                    //       color:
+                    //           HexColor.fromHex(ColorConst.lighter_baseHexColor),
+                    //       borderRadius: BorderRadius.circular(12),
+                    //       boxShadow: [
+                    //         BoxShadow(
+                    //             color: HexColor.fromHex(ColorConst.grey4),
+                    //             blurRadius: 5.0,
+                    //             offset: const Offset(0, 2),
+                    //             spreadRadius: 1),
+                    //       ],
+                    //       child: Row(
+                    //         mainAxisAlignment: MainAxisAlignment.center,
+                    //         children: [
+                    //           Icon(LucideIcons.facebook,
+                    //               color:
+                    //                   HexColor.fromHex(ColorConst.primaryDark)),
+                    //           12.pw,
+                    //           CustomTextEnum("Try with Facebook")
+                    //               .textMediumSM(),
+                    //         ],
+                    //       )),
+                    // ),
                   ],
                 ),
               ),
             ),
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: TermsAndConditions(),
           ),
           Container(
