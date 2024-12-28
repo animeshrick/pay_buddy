@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -138,5 +136,9 @@ class ValueHandler {
   double dp({required double val, required int places}) {
     String temp = val.toStringAsFixed(places);
     return double.parse(temp);
+  }
+
+  String get_error_msg({required String value}){
+    return value.split(":").last;
   }
 }

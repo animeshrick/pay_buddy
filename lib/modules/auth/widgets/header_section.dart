@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:pay_buddy/const/assects_const.dart';
 import 'package:pay_buddy/widget/custom_image.dart';
 

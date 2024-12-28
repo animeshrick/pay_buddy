@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
-import '../const/assects_const.dart';
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
 import '../extension/logger_extension.dart';
@@ -39,7 +38,7 @@ class PopUpItems {
       context: CurrentContext().context,
       type: type,
       style: ToastificationStyle.flatColored,
-      autoCloseDuration: Duration(seconds: durationSeconds ?? 2),
+      autoCloseDuration: Duration(seconds: durationSeconds ?? 4),
       title: CustomTextEnum(message, maxLines: 4).textXS(),
       description: RichText(text: const TextSpan(text: '')),
       alignment: Alignment.topRight,
@@ -52,10 +51,12 @@ class PopUpItems {
         );
       },
       icon: type == ToastificationType.success
-          ? const Icon(Icons.check)
+          ? Icon(Icons.check, color: HexColor.fromHex(ColorConst.success600))
           : type == ToastificationType.warning
-              ? const Icon(Icons.warning_amber)
-              : const Icon(Icons.account_tree_outlined),
+              ? Icon(Icons.warning_amber, color: HexColor.fromHex(ColorConst.warning600))
+              : type == ToastificationType.warning
+                  ? Icon(Icons.help_outline, color: HexColor.fromHex(ColorConst.error600))
+                  : null,
       showIcon: true,
       // primaryColor: Colors.green,
       backgroundColor: color,
