@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/modules/auth/model/user_token.dart';
+import 'package:pay_buddy/router/custom_router/custom_route.dart';
 import 'package:pay_buddy/service/value_handler.dart';
 import 'package:pay_buddy/storage/local_preferences.dart';
 
@@ -44,15 +45,11 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
           await LocalPreferences().getString(key: LocalPreferences.token);
 
       if (ValueHandler().isTextNotEmptyOrNull(string_token)) {
+        CustomRoute().clearAndNavigate(RouteName.dashboardView);
 
-        kIsWeb
-            ? CurrentContext().context.goNamed(RouteName.dashboardView)
-            : CurrentContext().context.pushNamed(RouteName.dashboardView);
       } else {
         Future.delayed(const Duration(seconds: 3), () {
-          kIsWeb
-              ? CurrentContext().context.goNamed(RouteName.auth)
-              : CurrentContext().context.pushNamed(RouteName.auth);
+          CustomRoute().clearAndNavigate(RouteName.auth);
         });
       }
     });
