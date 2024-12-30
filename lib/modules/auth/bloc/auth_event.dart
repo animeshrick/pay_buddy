@@ -21,3 +21,12 @@ class IsCheckedTc extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class VerifyOTP extends AuthEvent {
+  final  Map<String, dynamic> request;
+
+  const VerifyOTP({required this.request});
+
+  @override
+  List<Object?> get props => [];
+}

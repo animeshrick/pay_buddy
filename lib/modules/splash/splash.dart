@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pay_buddy/modules/auth/model/user_token.dart';
+import 'package:pay_buddy/service/value_handler.dart';
+import 'package:pay_buddy/storage/local_preferences.dart';
 
 import '../../const/color_const.dart';
 import '../../extension/hex_color.dart';
@@ -23,20 +28,33 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    );
 
-    _characterCount = StepTween(begin: 0, end: _text.length)
-        .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      _controller = AnimationController(
+        duration: const Duration(seconds: 3),
+        vsync: this,
+      );
 
-    _controller.forward();
+      _characterCount = StepTween(begin: 0, end: _text.length)
+          .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
 
-    Future.delayed(const Duration(seconds: 3), () {
-      kIsWeb
-          ? CurrentContext().context.goNamed(RouteName.auth)
-          : CurrentContext().context.pushNamed(RouteName.auth);
+      _controller.forward();
+
+      String? string_token =
+          await LocalPreferences().getString(key: LocalPreferences.token);
+
+      if (ValueHandler().isTextNotEmptyOrNull(string_token)) {
+
+        kIsWeb
+            ? CurrentContext().context.goNamed(RouteName.dashboardView)
+            : CurrentContext().context.pushNamed(RouteName.dashboardView);
+      } else {
+        Future.delayed(const Duration(seconds: 3), () {
+          kIsWeb
+              ? CurrentContext().context.goNamed(RouteName.auth)
+              : CurrentContext().context.pushNamed(RouteName.auth);
+        });
+      }
     });
   }
 

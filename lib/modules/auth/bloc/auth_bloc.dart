@@ -1,14 +1,21 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/data/model/common_response.dart';
+import 'package:pay_buddy/modules/auth/model/user_token.dart';
+import 'package:pay_buddy/router/custom_router/custom_route.dart';
+import 'package:pay_buddy/service/context_service.dart';
 import 'package:pay_buddy/service/value_handler.dart';
+import 'package:pay_buddy/storage/local_preferences.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../../const/color_const.dart';
 import '../../../data/bloc_data_model/dynamic_data.dart';
 import '../../../data/connection/connection_status.dart';
 import '../../../extension/hex_color.dart';
-import '../../../router/custom_router/custom_route.dart';
 import '../../../router/router_name.dart';
 import '../../../utils/pop_up_items.dart';
 import '../repo/auth_repo.dart';
@@ -20,7 +27,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc()
       : super(AuthState(
             authResponse: DynamicBlocData<CommonResponse>.init(),
-            isCheckedTC: DynamicBlocData<bool>.init(value: false))) {
+            isCheckedTC: DynamicBlocData<bool>.init(value: true),
+            verifyOTPResponse: DynamicBlocData<UserToken>.init())) {
     ConnectionStatus connectionStatus = ConnectionStatus.getInstance;
 
     on<AuthEvent>((event, emit) async {
@@ -34,7 +42,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             emit(state.copyWith(
                 authResponse:
                     DynamicBlocData<CommonResponse>.success(value: apiResp)));
-            CustomRoute().goto(RouteName.verification);
+
+            Map<String, String> data = {"email": event.user["email"]};
+
+            kIsWeb
+                ? CurrentContext()
+                    .context
+                    .goNamed(RouteName.verification, pathParameters: data)
+                : CurrentContext()
+                    .context
+                    .pushNamed(RouteName.verification, pathParameters: data);
           } else {
             PopUpItems().toastfy(
                 message: ValueHandler()
@@ -65,6 +82,40 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           connectionStatus.connectionChange.listen((onlineStatus) {
             if (onlineStatus && state.authResponse.status == Status.init) {
               add(const IsCheckedTc(isChecked: false));
+            }
+          });
+        }
+      }
+
+      if (event is VerifyOTP) {
+        bool onlineStatus = await connectionStatus.checkConnection();
+        if (onlineStatus) {
+          emit(state.copyWith(verifyOTPResponse: DynamicBlocData.loading()));
+          UserToken? apiResp =
+              await AuthRepo().verifyOTP(bodyData: event.request);
+          if (apiResp?.token != null) {
+            emit(state.copyWith(
+                verifyOTPResponse:
+                    DynamicBlocData<UserToken>.success(value: apiResp)));
+
+            await LocalPreferences().setString(
+                key: LocalPreferences.token,
+                value: jsonEncode(apiResp?.token ?? Token()));
+            CustomRoute().clearAndNavigate(RouteName.dashboardView);
+          } else {
+            PopUpItems().toastfy(
+                message: ValueHandler()
+                    .get_error_msg(value: apiResp?.errorMessage ?? ""),
+                color: HexColor.fromHex(ColorConst.error100),
+                type: ToastificationType.error);
+            emit(state.copyWith(
+                verifyOTPResponse: DynamicBlocData<UserToken>.error(
+                    message: apiResp?.errorMessage ?? "")));
+          }
+        } else {
+          connectionStatus.connectionChange.listen((onlineStatus) {
+            if (onlineStatus && state.authResponse.status == Status.init) {
+              // add(Register());
             }
           });
         }

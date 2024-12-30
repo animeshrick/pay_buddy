@@ -5,8 +5,7 @@ import '../extension/logger_extension.dart';
 class LocalPreferences {
   static const String intoPageVisitedKey = "IntoPageVisited";
   static const String userDetailsKey = "userDetails";
-  static const String pinCodeKey = "pinCode";
-  static const String isPinCodeAsked = "isPinCodeAsked";
+  static const String token = "token";
 
   Future<void> setBool({required String key, required bool value}) async {
     try {

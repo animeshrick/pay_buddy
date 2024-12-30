@@ -30,16 +30,8 @@ class _AuthState extends State<Auth> {
   TextEditingController email = TextEditingController(text: "abc@gmail.com");
   TextEditingController fullName =
       TextEditingController(text: "Animesh Flutter");
-  TextEditingController pass1 = TextEditingController(text: "123456");
-  TextEditingController pass2 = TextEditingController(text: "123456");
+  TextEditingController password = TextEditingController(text: "123456");
 
-  // bool isChecked = true;
-
-  @override
-  void dispose() {
-    // phoneNo.dispose();
-    super.dispose();
-  }
 
   final formKey = GlobalKey<FormState>();
 
@@ -141,7 +133,7 @@ class _AuthState extends State<Auth> {
                                 ),
                                 8.ph,
                                 CustomTextFormField(
-                                  controller: pass1,
+                                  controller: password,
                                   hintText: TextUtils.enter_password,
                                   label: TextUtils.enter_password,
                                   keyboardType: TextInputType.text,
@@ -155,20 +147,6 @@ class _AuthState extends State<Auth> {
                                   },
                                 ),
                                 8.ph,
-                                CustomTextFormField(
-                                  controller: pass2,
-                                  hintText: TextUtils.enter_confirm_password,
-                                  label: TextUtils.enter_confirm_password,
-                                  keyboardType: TextInputType.text,
-                                  errorText: null,
-                                  validator: (value) {
-                                    if (!ValueHandler()
-                                        .isTextNotEmptyOrNull(value)) {
-                                      return '';
-                                    }
-                                    return null;
-                                  },
-                                ),
                               ],
                             ),
                           ),
@@ -211,8 +189,7 @@ class _AuthState extends State<Auth> {
                                   "email": email.text.trim(),
                                   "fname": fullName.text.split(" ").first,
                                   "lname": fullName.text.split(" ").last,
-                                  "password1": pass1.text,
-                                  "password2": pass2.text
+                                  "password": password.text,
                                 };
                                 context
                                     .read<AuthBloc>()

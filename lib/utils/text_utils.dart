@@ -94,7 +94,7 @@ class TextUtils {
 
   // ignore: non_constant_identifier_names
   static String verification_code_des =
-      "We've sent a one-time password (OTP) on ##. Please enter the OTP below to complete the verification process.";
+      "We've sent a one-time password (OTP) on `##`. Please enter the OTP below to complete the verification process.";
 
   // ignore: non_constant_identifier_names
   static String email = "Email";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/modules/auth/ui/verification_view.dart';
+import 'package:pay_buddy/modules/dashboard/ui/dashboard_view.dart';
 
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
@@ -41,12 +42,21 @@ class RouterManager {
       ),
       GoRoute(
         name: RouteName.verification,
-        path: RouteName.verification,
+        path: "${RouteName.verification}/:email",
         builder: (BuildContext context, GoRouterState state) {
-          return VerificationView();
+          if (state.pathParameters["email"]?.isNotEmpty == true) {
+            return VerificationView(email: state.pathParameters["email"] ?? "",);
+          }
+          return errorRoute();
         },
       ),
-
+      GoRoute(
+        name: RouteName.dashboardView,
+        path: RouteName.dashboardView,
+        builder: (BuildContext context, GoRouterState state) {
+          return DashboardView();
+        },
+      ),
       // GoRoute(
       //   name: RouteName.bookingReschedule,
       //   path: "${RouteName.bookingReschedule}/:booking_no",
