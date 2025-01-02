@@ -19,10 +19,13 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 'stable'
+          flutter-version: '3.24.5' # Specify a valid Flutter version
 
       - name: Install Dependencies
         run: flutter pub get
+
+      - name: Debug Flutter Setup
+        run: flutter doctor -v
 
       - name: Update App Version
         run: |
