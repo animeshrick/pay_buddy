@@ -1,0 +1,60 @@
+name: Flutter CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Update App Version
+        run: |
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1)
+          BUILD_NUMBER=$(grep '^version:' pubspec.yaml | cut -d '+' -f 2)
+          NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
+          sed -i "s/^version: .*/version: ${VERSION}+${NEW_BUILD_NUMBER}/" pubspec.yaml
+          echo "Updated version to ${VERSION}+${NEW_BUILD_NUMBER}"
+
+      - name: Commit and Push Version Update
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add pubspec.yaml
+          git commit -m "CI: Increment app version to ${VERSION}+${NEW_BUILD_NUMBER}"
+          git push origin ${{ github.ref }}
+
+      - name: Analyze Code
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build APK
+        run: |
+          flutter build apk --release
+          VERSION=$(grep '^version:' pubspec.yaml | cut -d ' ' -f 2 | cut -d '+' -f 1)
+          BUILD_NUMBER=$(grep '^version:' pubspec.yaml | cut -d '+' -f 2)
+          mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release_${VERSION}_${BUILD_NUMBER}.apk
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-apk
+          path: build/app/outputs/flutter-apk/app-release_*.apk
