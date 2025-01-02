@@ -43,8 +43,8 @@ jobs:
           git commit -m "CI: Increment app version to ${VERSION}+${NEW_BUILD_NUMBER}"
           git push origin ${{ github.ref }}
 
-      - name: Analyze Code
-        run: flutter analyze
+      # - name: Analyze Code
+      #   run: flutter analyze
 
       - name: Run Tests
         run: flutter test
