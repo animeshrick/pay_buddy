@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_buddy/const/assects_const.dart';
+import 'package:pay_buddy/const/assets_const.dart';
 import 'package:pay_buddy/widget/custom_image.dart';
 
 import '../../../const/color_const.dart';

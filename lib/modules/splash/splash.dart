@@ -21,25 +21,12 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<int> _characterCount;
-
-  final String _text = "me.com";
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _controller = AnimationController(
-        duration: const Duration(seconds: 3),
-        vsync: this,
-      );
-
-      _characterCount = StepTween(begin: 0, end: _text.length)
-          .animate(CurvedAnimation(parent: _controller, curve: Curves.linear));
-
-      _controller.forward();
 
       String? string_token =
           await LocalPreferences().getString(key: LocalPreferences.token);
@@ -55,29 +42,18 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     });
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor.fromHex("#000000"),
       body: Center(
-        child: AnimatedBuilder(
-          animation: _characterCount,
-          builder: (context, child) {
-            String currentText = _text.substring(0, _characterCount.value);
-            return Text(
-              currentText,
-              style: TextStyle(
-                color: HexColor.fromHex(ColorConst.primaryDark),
-                fontSize: 24,
-              ),
-            );
-          },
+        child: Text(
+          "Welcome",
+          style: TextStyle(
+            color: HexColor.fromHex(ColorConst.primaryDark),
+            fontSize: 24,
+          ),
         ),
       ),
     );

@@ -3,6 +3,8 @@ class ColorConst {
   static String baseHexColor_shade_2 = "#6b72ff";
   static String lighter_baseHexColor = "#dee9f5";
 
+  static String grey = "#787474";
+
   static String light_green = "#5ff1bd";
 
   static String primaryDark = "#191d21";

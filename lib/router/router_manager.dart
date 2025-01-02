@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/modules/auth/ui/verification_view.dart';
 import 'package:pay_buddy/modules/dashboard/ui/dashboard_view.dart';
+import 'package:pay_buddy/modules/group/modules/group_settings/view/group_settings_view.dart';
+import 'package:pay_buddy/modules/landing/ui/landing.dart';
 
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
@@ -51,10 +53,38 @@ class RouterManager {
         },
       ),
       GoRoute(
+        name: RouteName.landing,
+        path: RouteName.landing,
+        builder: (BuildContext context, GoRouterState state) {
+          return LandingUi(index: 1);
+        },
+      ),
+      // GoRoute(
+      //   name: RouteName.dashboardView,
+      //   path: RouteName.dashboardView,
+      //   builder: (BuildContext context, GoRouterState state) {
+      //     return LandingUi(index: 2);
+      //   },
+      // ),
+      GoRoute(
         name: RouteName.dashboardView,
         path: RouteName.dashboardView,
         builder: (BuildContext context, GoRouterState state) {
           return DashboardView();
+        },
+      ),
+      GoRoute(
+        name: RouteName.groupSettings,
+        path: RouteName.groupSettings,
+        builder: (BuildContext context, GoRouterState state) {
+          return GroupSettingsView();
+        },
+      ),
+      GoRoute(
+        name: RouteName.settings,
+        path: RouteName.settings,
+        builder: (BuildContext context, GoRouterState state) {
+          return LandingUi(index: 3);
         },
       ),
       // GoRoute(

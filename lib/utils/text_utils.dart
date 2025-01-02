@@ -1,5 +1,14 @@
 class TextUtils {
   // ignore: non_constant_identifier_names
+  static String sign_out = "Sign Out";
+
+  // ignore: non_constant_identifier_names
+  static String settings = "Settings";
+
+  // ignore: non_constant_identifier_names
+  static String dashboard = "Home";
+
+  // ignore: non_constant_identifier_names
   static String ok = "Ok";
 
   // ignore: non_constant_identifier_names

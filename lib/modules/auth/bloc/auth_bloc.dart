@@ -101,7 +101,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             await LocalPreferences().setString(
                 key: LocalPreferences.token,
                 value: jsonEncode(apiResp?.token ?? Token()));
-            CustomRoute().clearAndNavigate(RouteName.dashboardView);
+            CustomRoute().clearAndNavigate(RouteName.landing);
           } else {
             PopUpItems().toastfy(
                 message: ValueHandler()

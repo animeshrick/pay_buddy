@@ -1,5 +1,5 @@
 class AssetsConst {
-  static String homeIcon = "assets/icon/home.svg";
   static String app_logo = "assets/logo/app_logo.png";
 
+  static String no_group_image = "assets/images/no_group_image.jpg";
 }
