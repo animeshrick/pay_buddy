@@ -6,4 +6,6 @@ class RouteName {
   static const String dashboardView = "/dashboardView";
   static const String groupSettings = "/groupSettings";
   static const String settings = "/settings";
+  static const String group_search = "/group_search";
+  static const String friends_search = "/friends_search";
 }

@@ -1,116 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:pay_buddy/const/color_const.dart';
 import 'package:pay_buddy/extension/hex_color.dart';
-import 'package:pay_buddy/extension/spacing.dart';
-import 'package:pay_buddy/modules/group/view/group_view.dart';
-import 'package:pay_buddy/utils/screen_utils.dart';
+import 'package:pay_buddy/modules/dashboard/utils/dashboard_utils.dart';
+import 'package:pay_buddy/router/custom_router/custom_route.dart';
+import 'package:pay_buddy/router/router_name.dart';
 import 'package:pay_buddy/widget/custom_button.dart';
-import 'package:pay_buddy/widget/custom_image.dart';
-import 'package:pay_buddy/widget/custom_text.dart';
 
-class DashboardView extends StatelessWidget {
+import '../bloc/dashboard_bloc.dart';
+
+class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: HexColor.fromHex(ColorConst.white),
-        elevation: 0,
-        actions: [
-          CustomIconButton(
-              padding: const EdgeInsets.only(right: 16),
-              icon: const Icon(Icons.search),
-              onPressed: () {}),
-          CustomIconButton(
-              padding: const EdgeInsets.only(right: 16),
-              icon: const Icon(LucideIcons.userRoundPlus),
-              onPressed: () {}),
-        ],
-      ),
-      /*body: StaggeredGrid.count(
-        crossAxisCount: 4,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-        children: [
-          StaggeredGridTile.count(
-            crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
-            child: Center(child: CustomTextEnum("Group!").textLG()),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 2,
-            mainAxisCellCount: 1,
-            child: Tile(index: 1),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
-            child: Tile(index: 2),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 1,
-            mainAxisCellCount: 1,
-            child: Tile(index: 3),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 4,
-            mainAxisCellCount: 2,
-            child: Tile(index: 4),
-          ),
-        ],
-      )*/
-      body: GroupView(),
-    );
-  }
+  State<DashboardView> createState() => _DashboardViewState();
 }
 
-
-class Tile extends StatelessWidget {
-  const Tile({
-    Key? key,
-    required this.index,
-    this.extent,
-    this.backgroundColor,
-    this.bottomSpace,
-  }) : super(key: key);
-
-  final int index;
-  final double? extent;
-  final double? bottomSpace;
-  final Color? backgroundColor;
-
+class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
-    final child = Container(
-      color: backgroundColor ?? Colors.grey,
-      height: extent,
-      child: Center(
-        child: CircleAvatar(
-          minRadius: 20,
-          maxRadius: 20,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          child: Text('$index', style: const TextStyle(fontSize: 20)),
-        ),
+    return BlocProvider(
+      create: (context) => DashboardBloc(),
+      child: BlocBuilder<DashboardBloc, DashboardState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              actions: [
+                if (DashboardUtils.instance.currentPageIndex != 2) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: CustomIconButton(
+                        icon: Icon(
+                          LucideIcons.search,
+                          color: HexColor.fromHex(ColorConst.gray500),
+                        ),
+                        onPressed: () {
+                          switch (DashboardUtils.instance.currentPageIndex) {
+                            case 0:
+                              CustomRoute().goto(RouteName.group_search);
+                              break;
+                            case 1:
+                              CustomRoute().goto(RouteName.friends_search);
+                              break;
+                          }
+                        }),
+                  )
+                ],
+              ],
+            ),
+            bottomNavigationBar: NavigationBar(
+              onDestinationSelected: (int index) {
+                context
+                    .read<DashboardBloc>()
+                    .add(PageChangeEvent(index: index));
+              },
+              indicatorColor: HexColor.fromHex(ColorConst.baseHexColor_shade_2),
+              selectedIndex: DashboardUtils.instance.currentPageIndex,
+              destinations: DashboardUtils.instance.botton_nav_options,
+            ),
+            body: DashboardUtils.instance.pages
+                .elementAt(DashboardUtils.instance.currentPageIndex),
+          );
+        },
       ),
-    );
-
-    if (bottomSpace == null) {
-      return child;
-    }
-
-    return Column(
-      children: [
-        Expanded(child: child),
-        Container(
-          height: bottomSpace,
-          color: Colors.green,
-        )
-      ],
     );
   }
 }

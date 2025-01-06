@@ -3,7 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/modules/auth/ui/verification_view.dart';
 import 'package:pay_buddy/modules/dashboard/ui/dashboard_view.dart';
 import 'package:pay_buddy/modules/group/modules/group_settings/view/group_settings_view.dart';
-import 'package:pay_buddy/modules/landing/ui/landing.dart';
+import 'package:pay_buddy/modules/search/modules/friends_search/view/friends_search_view.dart';
+import 'package:pay_buddy/modules/search/modules/group_search/view/group_search_view.dart';
 
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
@@ -53,24 +54,11 @@ class RouterManager {
         },
       ),
       GoRoute(
-        name: RouteName.landing,
-        path: RouteName.landing,
-        builder: (BuildContext context, GoRouterState state) {
-          return LandingUi(index: 1);
-        },
-      ),
-      // GoRoute(
-      //   name: RouteName.dashboardView,
-      //   path: RouteName.dashboardView,
-      //   builder: (BuildContext context, GoRouterState state) {
-      //     return LandingUi(index: 2);
-      //   },
-      // ),
-      GoRoute(
         name: RouteName.dashboardView,
         path: RouteName.dashboardView,
         builder: (BuildContext context, GoRouterState state) {
           return DashboardView();
+          // return DashboardView();
         },
       ),
       GoRoute(
@@ -81,10 +69,17 @@ class RouterManager {
         },
       ),
       GoRoute(
-        name: RouteName.settings,
-        path: RouteName.settings,
+        name: RouteName.friends_search,
+        path: RouteName.friends_search,
         builder: (BuildContext context, GoRouterState state) {
-          return LandingUi(index: 3);
+          return FriendsSearchView();
+        },
+      ),
+      GoRoute(
+        name: RouteName.group_search,
+        path: RouteName.group_search,
+        builder: (BuildContext context, GoRouterState state) {
+          return GroupSearchView();
         },
       ),
       // GoRoute(
