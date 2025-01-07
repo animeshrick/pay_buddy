@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
@@ -6,6 +7,7 @@ import '../extension/hex_color.dart';
 import '../extension/logger_extension.dart';
 import '../extension/spacing.dart';
 import '../service/context_service.dart';
+import '../service/value_handler.dart';
 import '../utils/screen_utils.dart';
 import '../utils/text_utils.dart';
 import '../utils/validator.dart';
@@ -27,6 +29,62 @@ class PopUpItems {
       margin: const EdgeInsets.all(5),
     );
     ScaffoldMessenger.of(CurrentContext().context).showSnackBar(snackBar);
+  }
+
+
+  Future<void> cupertinoPopup({
+    String? title,
+    required void Function()? cancelBtnPresses,
+    required void Function()? okBtnPressed,
+    String? content,
+    String? cancelBtnText,
+    String? okBtnText,
+  }) async {
+    String? result = await showCupertinoDialog<String>(
+      context: CurrentContext().context,
+      barrierDismissible: true,
+      builder: (BuildContext context) => CupertinoTheme(
+        data: const CupertinoThemeData(brightness: Brightness.light),
+        child: CupertinoAlertDialog(
+          title: title != null
+              ? CustomText(title, color: Colors.black, size: 14)
+              : null,
+          content: content != null
+              ? ValueHandler().isHtml(content)
+              ? CustomHtmlText(content,
+              color: HexColor.fromHex(ColorConst.primaryDark), size: 14)
+              : CustomText(content,
+              color: HexColor.fromHex(ColorConst.primaryDark), size: 14)
+              : null,
+          actions: <Widget>[
+            if (cancelBtnPresses != null)
+              CupertinoDialogAction(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: CustomText(cancelBtnText ?? "Cancel",
+                    color: Colors.black, size: 14),
+              ),
+            CupertinoDialogAction(
+              onPressed: () {
+                Navigator.pop(context, "Yes");
+              },
+              child:
+              CustomText(okBtnText ?? "Ok", color: Colors.black, size: 14),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (result == "Yes") {
+      if (okBtnPressed != null) {
+        okBtnPressed();
+      }
+    } else {
+      if (cancelBtnPresses != null) {
+        cancelBtnPresses();
+      }
+    }
   }
 
   void toastfy(

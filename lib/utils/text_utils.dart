@@ -128,4 +128,7 @@ class TextUtils {
 
   // ignore: non_constant_identifier_names
   static String appTitle = "Pay Buddy";
+
+  // ignore: non_constant_identifier_names
+  static String file_already_selected = "File already selected.";
 }

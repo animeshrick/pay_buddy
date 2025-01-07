@@ -5,11 +5,11 @@ class JsProvider {
   JSHelper jsHelper = JSHelper();
 
   Future paytmLoadScript(
-    String txnToken,
-    String orderId,
-    String amount,
-    String mid,
-  ) async {
+      String txnToken,
+      String orderId,
+      String amount,
+      String mid,
+      ) async {
     return await jsHelper.paytmLoadScript(txnToken, orderId, amount, mid);
   }
 
@@ -64,5 +64,63 @@ class JsProvider {
 
   void submitForm(actionUrl, String obj, String id) {
     jsHelper.submitForm(actionUrl, obj, id);
+  }
+
+  Future<void> loadJs({required String jsPath}) async {
+    try {
+      await jsHelper.loadJs(jsPath: jsPath);
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+  }
+
+  Future<void> faceBookTrackEvent(
+      {required String eventName, Map<String, dynamic>? params}) async {
+    try {
+      String jsPath = "assets/js/facebook_track_event.js";
+      await jsHelper.loadJs(
+          jsPath: jsPath,
+          jsFunctionName: 'trackEvent',
+          jsFunctionArgs: [eventName, params ?? {}]);
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+  }
+
+  Future<void> faceBookLogPurchaseEvent(
+      {required String currency,
+        required double value,
+        Map<String, dynamic>? params}) async {
+    try {
+      String jsPath = "assets/js/facebook_track_event.js";
+      await jsHelper.loadJs(
+          jsPath: jsPath,
+          jsFunctionName: 'logPurchaseEvent',
+          jsFunctionArgs: [currency, value, params ?? {}]);
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+  }
+
+  Future<void> facebookSetUserID({required String userId}) async {
+    try {
+      String jsPath = "assets/js/facebook_track_event.js";
+      await jsHelper.loadJs(
+          jsPath: jsPath,
+          jsFunctionName: 'setFacebookUserID',
+          jsFunctionArgs: [userId]);
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+  }
+
+  Future<void> facebookClearUserID() async {
+    try {
+      String jsPath = "assets/js/facebook_track_event.js";
+      await jsHelper.loadJs(
+          jsPath: jsPath, jsFunctionName: 'clearFacebookUserID');
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
   }
 }

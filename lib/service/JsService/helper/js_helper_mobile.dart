@@ -1,10 +1,10 @@
 class JSHelper {
   Future paytmLoadScript(
-    String txnToken,
-    String orderId,
-    String amount,
-    String mid,
-  ) async {
+      String txnToken,
+      String orderId,
+      String amount,
+      String mid,
+      ) async {
     return "";
   }
 
@@ -44,4 +44,12 @@ class JSHelper {
   }
 
   void submitForm(actionUrl, String obj, String id) {}
+
+  Future<T?> loadJs<T>(
+      {String? jsPath,
+        String? jsFunctionName,
+        List<Object?>? jsFunctionArgs,
+        bool usePromise = false}) async {
+    return null;
+  }
 }

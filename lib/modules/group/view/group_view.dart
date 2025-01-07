@@ -102,7 +102,9 @@ class GroupView extends StatelessWidget {
               radius: 6,
               size: Size(ScreenUtils.aw, 38),
               backGroundColor: HexColor.fromHex(ColorConst.baseHexColor),
-              onPressed: () {},
+              onPressed: () {
+                CustomRoute().goto(RouteName.addNewGroup);
+              },
               child: CustomTextEnum(
                 "Add a new Group",
                 color: HexColor.fromHex(ColorConst.white),

@@ -34,7 +34,7 @@ class _FriendsViewState extends State<FriendsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: CustomContainer(
                   width: 150,
                   borderRadius: const BorderRadius.only(
@@ -43,10 +43,11 @@ class _FriendsViewState extends State<FriendsView> {
                   color: HexColor.fromHex(ColorConst.lighter_baseHexColor),
                   padding: const EdgeInsets.all(6),
                   child: Center(
-                      child: CustomTextEnum("Received Requests").textMediumSM())),
+                      child:
+                          CustomTextEnum("Received Requests").textMediumSM())),
             ),
             InkWell(
-              onTap: (){},
+              onTap: () {},
               child: CustomContainer(
                   width: 150,
                   borderRadius: const BorderRadius.only(
@@ -71,7 +72,7 @@ class _FriendsViewState extends State<FriendsView> {
               crossAxisCount: 2,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
-              childAspectRatio: 1.0,
+              childAspectRatio: 0.9,
             ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             itemCount: 3,

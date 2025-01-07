@@ -5,6 +5,11 @@ import '../extension/logger_extension.dart';
 import '../service/context_service.dart';
 
 class ValueHandler {
+  bool isHtml(String text) {
+    final RegExp htmlRegExp = RegExp(r'<[^>]*>');
+    return htmlRegExp.hasMatch(text);
+  }
+
   String? stringify(var value) {
     if (value == null || value.toString().toLowerCase() == "null") {
       return null;

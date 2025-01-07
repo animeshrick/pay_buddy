@@ -1,11 +1,35 @@
+import 'dart:io';
+import 'dart:ui' as ui;
 
+import 'package:camera/camera.dart';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pay_buddy/service/value_handler.dart';
+
+import '../const/color_const.dart';
+import '../data/model/custom_file.dart';
+import '../extension/hex_color.dart';
+import '../extension/logger_extension.dart';
+import '../extension/spacing.dart';
+import '../service/JsService/provider/js_provider.dart';
+import '../service/context_service.dart';
+import '../utils/pop_up_items.dart';
+import '../widget/custom_text.dart';
+import '../widget/loading_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CustomFilePicker {
   final int _maxFileSize = 5;
   final String _notJpgErrorMsg =
       "Invalid file format. Please select an image in JPG format";
 
-/*  Future<CustomFile?> pickSingleFile({bool? noDocs}) async {
+  Future<CustomFile?> pickSingleFile({bool? noDocs}) async {
     try {
       if (!kIsWeb && Platform.isIOS) {
         final permissionStatus = await _fileManagerPermission(
@@ -65,44 +89,44 @@ class CustomFilePicker {
       AppLog.e(e, error: e);
     }
     return null;
-  }*/
+  }
 
-// Future<List<CustomFile>?> pickMultipleFile() async {
-//   try {
-//     if (!kIsWeb && Platform.isIOS) {
-//       final permissionStatus = await _fileManagerPermission(
-//           permission: Permission.storage, name: 'File');
-//       if (!permissionStatus.isGranted) {
-//         return null;
-//       }
-//     }
-//
-//     FilePickerResult? result = await FilePicker.platform.pickFiles(
-//         type: FileType.custom,
-//         allowedExtensions: ['jpeg', 'jpg', 'pdf'],
-//         allowMultiple: true);
-//
-//     if (result != null) {
-//       List<PlatformFile> platformFiles = result.files;
-//
-//       return List.generate(platformFiles.length, (index) {
-//         PlatformFile platformFile = platformFiles.elementAt(index);
-//         return CustomFile(
-//           name: platformFile.name,
-//           path: kIsWeb ? null : platformFile.path,
-//           bytes: kIsWeb ? platformFile.bytes : null,
-//         );
-//       });
-//     } else {
-//       AppLog.t("User canceled the picker");
-//     }
-//   } catch (e) {
-//     AppLog.e(e, error: e);
-//   }
-//   return null;
-// }
+Future<List<CustomFile>?> pickMultipleFile() async {
+  try {
+    if (!kIsWeb && Platform.isIOS) {
+      final permissionStatus = await _fileManagerPermission(
+          permission: Permission.storage, name: 'File');
+      if (!permissionStatus.isGranted) {
+        return null;
+      }
+    }
 
-/*  Future<CustomFile?> cameraPicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpeg', 'jpg', 'pdf'],
+        allowMultiple: true);
+
+    if (result != null) {
+      List<PlatformFile> platformFiles = result.files;
+
+      return List.generate(platformFiles.length, (index) {
+        PlatformFile platformFile = platformFiles.elementAt(index);
+        return CustomFile(
+          name: platformFile.name,
+          path: kIsWeb ? null : platformFile.path,
+          bytes: kIsWeb ? platformFile.bytes : null,
+        );
+      });
+    } else {
+      AppLog.t("User canceled the picker");
+    }
+  } catch (e) {
+    AppLog.e(e, error: e);
+  }
+  return null;
+}
+
+  Future<CustomFile?> cameraPicker() async {
     try {
       final permissionStatus = await _fileManagerPermission(
           permission: Permission.camera, name: 'Camera');
@@ -130,9 +154,9 @@ class CustomFilePicker {
       AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
     }
     return null;
-  }*/
+  }
 
-/*  Future<CustomFile?> galleryPicker() async {
+  Future<CustomFile?> galleryPicker() async {
     try {
       if (!kIsWeb) {
         final androidInfo = (!kIsWeb && Platform.isAndroid)
@@ -168,9 +192,9 @@ class CustomFilePicker {
       AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
     }
     return null;
-  }*/
+  }
 
-/*   Future<CustomFile?> customFilePicker({bool? noDocs, bool? noCamera}) async {
+   Future<CustomFile?> customFilePicker({bool? noDocs, bool? noCamera}) async {
    int tag = 3;
     try {
       FocusManager.instance.primaryFocus?.unfocus();
@@ -300,9 +324,9 @@ class CustomFilePicker {
       AppLog.e(e, error: e);
     }
     return null;
-  }*/
+  }
 
-/*Future<CustomFile?> _compressAndResizeImage(CustomFile file) async {
+Future<CustomFile?> _compressAndResizeImage(CustomFile file) async {
     showLoading();
     CustomFile? customFile;
     try {
@@ -354,35 +378,35 @@ class CustomFilePicker {
     }
 
     return customFile;
-  }*/
+  }
 
-// Future<PermissionStatus> _fileManagerPermission(
-//     {required Permission permission, required String name}) async {
-//   final permissionStatus = await permission.request();
-//   if (!permissionStatus.isGranted) {
-//     final currentStatus = await permission.status;
-//     bool permanentlyDenied = currentStatus.isPermanentlyDenied;
-//     if (permanentlyDenied) {
-//       await PopUpItems().cupertinoPopup(
-//         title: "$name permission Required",
-//         content:
-//             "$name access is permanently denied. Please enable it in settings to use this feature.",
-//         cancelBtnPresses: () {},
-//         okBtnPressed: () async {
-//           await openAppSettings();
-//         },
-//       );
-//     } else {
-//       PopUpItems().toastMessage(
-//         "$name access is required to use this feature. Please grant permission to continue.",
-//         HexColor.fromHex(ColorConst.baseHexColor),
-//         durationSeconds: 3,
-//       );
-//     }
-//     final updatedStatus = await permission.status; // Adjust for iOS if needed
-//     return updatedStatus;
-//   } else {
-//     return permissionStatus;
-//   }
-// }
+Future<PermissionStatus> _fileManagerPermission(
+    {required Permission permission, required String name}) async {
+  final permissionStatus = await permission.request();
+  if (!permissionStatus.isGranted) {
+    final currentStatus = await permission.status;
+    bool permanentlyDenied = currentStatus.isPermanentlyDenied;
+    if (permanentlyDenied) {
+      await PopUpItems().cupertinoPopup(
+        title: "$name permission Required",
+        content:
+            "$name access is permanently denied. Please enable it in settings to use this feature.",
+        cancelBtnPresses: () {},
+        okBtnPressed: () async {
+          await openAppSettings();
+        },
+      );
+    } else {
+      PopUpItems().toastMessage(
+        "$name access is required to use this feature. Please grant permission to continue.",
+        HexColor.fromHex(ColorConst.baseHexColor),
+        durationSeconds: 3,
+      );
+    }
+    final updatedStatus = await permission.status; // Adjust for iOS if needed
+    return updatedStatus;
+  } else {
+    return permissionStatus;
+  }
+}
 }
