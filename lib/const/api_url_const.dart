@@ -1,7 +1,9 @@
 class ApiUrlConst {
   static bool isLive = false;
   static String baseUrl =
-      isLive ? "https://www.googleapis.com/" : "http://192.168.1.2:8000";
+      isLive ? "--LIVE-URL--" : "https://splitzy-stg.onrender.com";
+
+  static String localhost_url = "http://192.168.1.2:8000";
 
   static String auth_api_url = "$baseUrl/auth/api/v2";
 
