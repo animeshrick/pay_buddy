@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/modules/auth/ui/verification_view.dart';
 import 'package:pay_buddy/modules/dashboard/ui/dashboard_view.dart';
-import 'package:pay_buddy/modules/group/modules/add_new_group/add_new_group.dart';
+import 'package:pay_buddy/modules/group/modules/add_new_group/view/add_new_group.dart';
 import 'package:pay_buddy/modules/group/modules/group_settings/view/group_settings_view.dart';
 import 'package:pay_buddy/modules/search/modules/friends_search/view/friends_search_view.dart';
 import 'package:pay_buddy/modules/search/modules/group_search/view/group_search_view.dart';
