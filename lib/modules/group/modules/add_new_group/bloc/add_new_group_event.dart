@@ -30,3 +30,12 @@ class RemoveImageAtIndex extends AddNewGroupEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SelectFriend extends AddNewGroupEvent {
+  const SelectFriend({required this.name});
+
+  final List<String> name;
+
+  @override
+  List<Object?> get props => [];
+}

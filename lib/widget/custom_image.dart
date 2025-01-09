@@ -5,6 +5,54 @@ import 'package:flutter_svg/svg.dart';
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
 
+class CircularProfileImage extends StatelessWidget {
+  final String? imageUrl; // URL for network image
+  final String? assetImage; // Path for asset image
+  final String? initials; // Initials fallback (e.g., "AB")
+  final double radius; // Radius of the circle
+  final Color borderColor; // Border color
+  final double borderWidth; // Border width
+  final Color backgroundColor; // Background color for initials
+
+  const CircularProfileImage({
+    Key? key,
+    this.imageUrl,
+    this.assetImage,
+    this.initials,
+    this.radius = 40.0,
+    this.borderColor = Colors.grey,
+    this.borderWidth = 2.0,
+    this.backgroundColor = Colors.blueGrey,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      radius: radius + borderWidth, // Adjust for border
+      backgroundColor: borderColor, // Border color
+      child: CircleAvatar(
+        radius: radius,
+        backgroundColor: backgroundColor,
+        backgroundImage: imageUrl != null
+            ? NetworkImage(imageUrl!) // Load network image
+            : assetImage != null
+                ? AssetImage(assetImage!) as ImageProvider // Load asset image
+                : null,
+        child: (imageUrl == null && assetImage == null && initials != null)
+            ? Text(
+                initials!,
+                style: TextStyle(
+                  fontSize: radius / 2, // Dynamic font size
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            : null, // Fallback to initials
+      ),
+    );
+  }
+}
+
 class CustomNetWorkImageView extends StatelessWidget {
   const CustomNetWorkImageView({
     super.key,

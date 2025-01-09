@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pay_buddy/data/model/user_model.dart';
+import 'package:toastification/toastification.dart';
 
 import '../../../../../const/color_const.dart';
 import '../../../../../data/bloc_data_model/dynamic_data.dart';
@@ -16,7 +18,9 @@ part 'add_new_group_state.dart';
 class AddNewGroupBloc extends Bloc<AddNewGroupEvent, AddNewGroupState> {
   AddNewGroupBloc()
       : super(AddNewGroupState(
-            selectedFiles: DynamicBlocData<List<CustomFile>>.init())) {
+          selectedFiles: DynamicBlocData<List<CustomFile>>.init(value: []),
+          selectedFriends: DynamicBlocData<List<String>>.init(value: []),
+        )) {
     on<AddNewGroupEvent>((event, emit) {
       if (event is UpdatePickFile) {
         showLoading();
@@ -27,8 +31,10 @@ class AddNewGroupBloc extends Bloc<AddNewGroupEvent, AddNewGroupState> {
         //     await ReturnSummeryRepo().uploadReturnImage(file: event.files);
 
         // if (uploadImageResponse?.status == "2000") {
-        PopUpItems().toastMessage("uploadImageResponse?.message" ?? "",
-            HexColor.fromHex(ColorConst.success600));
+        PopUpItems().toastfy(
+            message: "Image uploaded successfully",
+            type: ToastificationType.success,
+            color: HexColor.fromHex(ColorConst.light_green));
         emit(state.copyWith(
             selectedFiles:
                 DynamicBlocData<List<CustomFile>>.success(value: event.files)));
@@ -57,7 +63,16 @@ class AddNewGroupBloc extends Bloc<AddNewGroupEvent, AddNewGroupState> {
             selectedFiles: DynamicBlocData<List<CustomFile>>.loading()));
         emit(state.copyWith(
             selectedFiles:
-            DynamicBlocData<List<CustomFile>>.success(value: imageList)));
+                DynamicBlocData<List<CustomFile>>.success(value: imageList)));
+      }
+
+      /// add members
+      else if (event is SelectFriend) {
+        emit(state.copyWith(
+            selectedFriends: DynamicBlocData<List<String>>.loading()));
+        emit(state.copyWith(
+            selectedFriends:
+                DynamicBlocData<List<String>>.success(value: event.name)));
       }
     });
   }
