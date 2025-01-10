@@ -5,7 +5,7 @@ sealed class AuthEvent extends Equatable {
 }
 
 class Register extends AuthEvent {
-  final  Map<String, dynamic> user;
+  final Map<String, dynamic> user;
 
   const Register({required this.user});
 
@@ -23,9 +23,36 @@ class IsCheckedTc extends AuthEvent {
 }
 
 class VerifyOTP extends AuthEvent {
-  final  Map<String, dynamic> request;
+  final Map<String, dynamic> request;
 
   const VerifyOTP({required this.request});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class LoginCheck extends AuthEvent {
+  final bool isLogin;
+
+  const LoginCheck({required this.isLogin});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class Login extends AuthEvent {
+  final Map<String, dynamic> request;
+
+  const Login({required this.request});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ResendOTP extends AuthEvent {
+  final String email;
+
+  const ResendOTP({required this.email});
 
   @override
   List<Object?> get props => [];

@@ -35,7 +35,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
         CustomRoute().clearAndNavigate(RouteName.dashboardView);
 
       } else {
-        Future.delayed(const Duration(seconds: 3), () {
+        Future.delayed(const Duration(seconds: 0), () {
           // CustomRoute().clearAndNavigate(RouteName.dashboardView);
           CustomRoute().clearAndNavigate(RouteName.auth);
         });

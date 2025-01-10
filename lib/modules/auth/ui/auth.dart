@@ -26,12 +26,10 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
-  TextEditingController username = TextEditingController(text: "animeshapp");
-  TextEditingController email = TextEditingController(text: "abc@gmail.com");
+  TextEditingController email = TextEditingController(text: "@gmail.com");
   TextEditingController fullName =
       TextEditingController(text: "Animesh Flutter");
   TextEditingController password = TextEditingController(text: "123456");
-
 
   final formKey = GlobalKey<FormState>();
 
@@ -102,20 +100,22 @@ class _AuthState extends State<Auth> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomTextFormField(
-                                  controller: fullName,
-                                  hintText: TextUtils.enter_full_name,
-                                  label: TextUtils.enter_full_name,
-                                  keyboardType: TextInputType.text,
-                                  errorText: null,
-                                  validator: (value) {
-                                    if (!ValueHandler()
-                                        .isTextNotEmptyOrNull(value)) {
-                                      return '';
-                                    }
-                                    return null;
-                                  },
-                                ),
+                                if (state.isLogin.value == false) ...[
+                                  CustomTextFormField(
+                                    controller: fullName,
+                                    hintText: TextUtils.enter_full_name,
+                                    label: TextUtils.enter_full_name,
+                                    keyboardType: TextInputType.text,
+                                    errorText: null,
+                                    validator: (value) {
+                                      if (!ValueHandler()
+                                          .isTextNotEmptyOrNull(value)) {
+                                        return '';
+                                      }
+                                      return null;
+                                    },
+                                  )
+                                ],
                                 8.ph,
                                 CustomTextFormField(
                                   controller: email,
@@ -147,6 +147,28 @@ class _AuthState extends State<Auth> {
                                   },
                                 ),
                                 8.ph,
+                                Row(
+                                  children: [
+                                    const Spacer(),
+                                    CustomTextButton(
+                                        child: state.isLogin.value == true
+                                            ? CustomTextEnum("Register").textSM()
+                                            : CustomTextEnum("Login")
+                                                .textSM(),
+                                        onPressed: () {
+                                          if (state.isLogin.value == true) {
+                                            context.read<AuthBloc>().add(
+                                                const LoginCheck(
+                                                    isLogin: false));
+                                          }
+                                          if (state.isLogin.value == false) {
+                                            context.read<AuthBloc>().add(
+                                                const LoginCheck(
+                                                    isLogin: true));
+                                          }
+                                        })
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -177,7 +199,8 @@ class _AuthState extends State<Auth> {
                           HexColor.fromHex(ColorConst.baseHexColor),
                       radius: 12,
                       size: Size(ScreenUtils.aw, 48),
-                      onPressed: state.authResponse.status == Status.loading
+                      onPressed: state.authResponse.status == Status.loading ||
+                              state.loginResponse.status == Status.loading
                           ? null
                           : () {
                               bool? validateForm =
@@ -185,15 +208,25 @@ class _AuthState extends State<Auth> {
 
                               if (validateForm == true &&
                                   state.isCheckedTC.value == true) {
-                                Map<String, dynamic> data = {
-                                  "email": email.text.trim(),
-                                  "fname": fullName.text.split(" ").first,
-                                  "lname": fullName.text.split(" ").last,
-                                  "password": password.text,
-                                };
-                                context
-                                    .read<AuthBloc>()
-                                    .add(Register(user: data));
+                                if (state.isLogin.value == true) {
+                                  Map<String, dynamic> data = {
+                                    "email": email.text.trim(),
+                                    "password": password.text,
+                                  };
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(Login(request: data));
+                                } else {
+                                  Map<String, dynamic> data = {
+                                    "email": email.text.trim(),
+                                    "fname": fullName.text.split(" ").first,
+                                    "lname": fullName.text.split(" ").last,
+                                    "password": password.text,
+                                  };
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(Register(user: data));
+                                }
                               } else if (state.isCheckedTC.value == false) {
                                 PopUpItems().toastfy(
                                     message: TextUtils.agree_TC,
@@ -210,8 +243,9 @@ class _AuthState extends State<Auth> {
                                     type: ToastificationType.warning);
                               }
                             },
-                      child: state.authResponse.status == Status.loading
-                          ? CircularProgressIndicator()
+                      child: state.authResponse.status == Status.loading ||
+                              state.loginResponse.status == Status.loading
+                          ? const CircularProgressIndicator()
                           : CustomTextEnum(TextUtils.Continue,
                                   color: HexColor.fromHex(ColorConst.white))
                               .textSM()),

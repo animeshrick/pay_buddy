@@ -1,12 +1,12 @@
 class UserToken {
   Token? token;
-  String? errorMessage;
+  String? message;
 
-  UserToken({this.token, this.errorMessage});
+  UserToken({this.token, this.message});
 
   UserToken.fromJson(Map<String, dynamic> json) {
     token = json['token'] != null ? Token.fromJson(json['token']) : null;
-    errorMessage = json['errorMessage'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -14,7 +14,7 @@ class UserToken {
     if (token != null) {
       data['token'] = token?.toJson();
     }
-    data['errorMessage'] = errorMessage;
+    data['message'] = message;
     return data;
   }
 }

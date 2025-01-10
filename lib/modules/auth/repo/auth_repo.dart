@@ -28,10 +28,28 @@ class AuthRepo {
           bodyData: BodyData.raw(body: bodyData));
 
       ApiReturnModel resp = ApiReturnModel.fromJson({
-        'statusCode': response?.statusCode??0,
-        'responseString': response?.responseString??"",
-        'message': response?.message??"",
+        'statusCode': response?.statusCode ?? 0,
+        'responseString': response?.responseString ?? "",
+        'message': response?.message ?? "",
       });
+      return resp;
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+    return null;
+  }
+
+  Future<UserToken?> loginCall({required Map<String, dynamic> bodyData}) async {
+    try {
+      ApiReturnModel? response = await apiRepo().callApi(
+          tag: 'login',
+          uri: ApiUrlConst.login,
+          method: Method.post,
+          headers: ApiConfig().getHeaders(),
+          bodyData: BodyData.raw(body: bodyData));
+
+      var v = json.decode(response?.responseString ?? "");
+      UserToken resp = UserToken.fromJson(v);
       return resp;
     } catch (e, stacktrace) {
       AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
@@ -52,6 +70,24 @@ class AuthRepo {
         UserToken resp = UserToken.fromJson(v);
         return resp;
       }
+    } catch (e, stacktrace) {
+      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
+    }
+    return null;
+  }
+
+  Future<ApiReturnModel?> resendOTP({required String email}) async {
+    try {
+      ApiReturnModel? response = await apiRepo().callApi(
+          tag: 'resendOTP',
+          uri: ApiUrlConst.resend_otp,
+          method: Method.post,
+          headers: ApiConfig().getHeaders(),
+          bodyData: BodyData.raw(body: {"email": email}));
+
+      Map<String, dynamic> v = json.decode(response?.responseString ?? "");
+      ApiReturnModel resp = ApiReturnModel.fromJson(v);
+      return resp;
     } catch (e, stacktrace) {
       AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
     }

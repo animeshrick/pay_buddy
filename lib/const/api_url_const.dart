@@ -11,4 +11,6 @@ class ApiUrlConst {
 
   static String register_otp = "$auth_api_url/create-users";
   static String verify_otp = "$auth_api_url/verify-otp";
+  static String login = "$auth_api_url/sign-in";
+  static String resend_otp = "$auth_api_url/send-otp";
 }

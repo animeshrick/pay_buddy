@@ -11,7 +11,7 @@ import 'package:pay_buddy/router/custom_router/custom_route.dart';
 import 'package:pay_buddy/service/context_service.dart';
 import 'package:pay_buddy/service/value_handler.dart';
 import 'package:pay_buddy/storage/local_preferences.dart';
-import 'package:pay_buddy/utils/text_utils.dart';
+import 'package:pay_buddy/widget/loading_widget.dart';
 import 'package:toastification/toastification.dart';
 
 import '../../../const/color_const.dart';
@@ -29,12 +29,17 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc()
       : super(AuthState(
-            authResponse: DynamicBlocData<ApiReturnModel>.init(),
-            isCheckedTC: DynamicBlocData<bool>.init(value: true),
-            verifyOTPResponse: DynamicBlocData<UserToken>.init())) {
+          authResponse: DynamicBlocData<ApiReturnModel>.init(),
+          isCheckedTC: DynamicBlocData<bool>.init(value: true),
+          isLogin: DynamicBlocData<bool>.init(value: true),
+          verifyOTPResponse: DynamicBlocData<UserToken>.init(),
+          loginResponse: DynamicBlocData<UserToken>.init(),
+          resendOTP: DynamicBlocData<ApiReturnModel>.init(),
+        )) {
     ConnectionStatus connectionStatus = ConnectionStatus.getInstance;
 
     on<AuthEvent>((event, emit) async {
+      /// Register
       if (event is Register) {
         bool onlineStatus = await connectionStatus.checkConnection();
         if (onlineStatus) {
@@ -78,6 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
 
+      /// IsCheckedTc
       if (event is IsCheckedTc) {
         bool onlineStatus = await connectionStatus.checkConnection();
         if (onlineStatus) {
@@ -94,6 +100,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         }
       }
 
+      ///VerifyOTP
       if (event is VerifyOTP) {
         bool onlineStatus = await connectionStatus.checkConnection();
         if (onlineStatus) {
@@ -111,13 +118,106 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             CustomRoute().clearAndNavigate(RouteName.dashboardView);
           } else {
             PopUpItems().toastfy(
-                message: ValueHandler()
-                    .get_error_msg(value: apiResp?.errorMessage ?? ""),
+                message:
+                    ValueHandler().get_error_msg(value: apiResp?.message ?? ""),
                 color: HexColor.fromHex(ColorConst.error100),
                 type: ToastificationType.error);
             emit(state.copyWith(
                 verifyOTPResponse: DynamicBlocData<UserToken>.error(
-                    message: apiResp?.errorMessage ?? "")));
+                    message: apiResp?.message ?? "")));
+          }
+        } else {
+          connectionStatus.connectionChange.listen((onlineStatus) {
+            if (onlineStatus && state.authResponse.status == Status.init) {
+              PopUpItems().toastfy(
+                  message: "Your internet connection is interrupted.",
+                  color: HexColor.fromHex(ColorConst.error100),
+                  type: ToastificationType.error);
+            }
+          });
+        }
+      }
+
+      /// Login
+      if (event is Login) {
+        bool onlineStatus = await connectionStatus.checkConnection();
+        if (onlineStatus) {
+          emit(state.copyWith(loginResponse: DynamicBlocData.loading()));
+          UserToken? apiResp =
+              await AuthRepo().loginCall(bodyData: event.request);
+          if (apiResp?.token != null) {
+            emit(state.copyWith(
+                loginResponse:
+                    DynamicBlocData<UserToken>.success(value: apiResp)));
+
+            await LocalPreferences().setString(
+                key: LocalPreferences.token,
+                value: jsonEncode(apiResp?.token ?? Token()));
+            CustomRoute().clearAndNavigate(RouteName.dashboardView);
+          } else {
+            PopUpItems().toastfy(
+                message:
+                    ValueHandler().get_error_msg(value: apiResp?.message ?? ""),
+                color: HexColor.fromHex(ColorConst.error100),
+                type: ToastificationType.error);
+            emit(state.copyWith(
+                loginResponse: DynamicBlocData<UserToken>.error(
+                    message: apiResp?.message ?? "")));
+          }
+        } else {
+          connectionStatus.connectionChange.listen((onlineStatus) {
+            if (onlineStatus && state.authResponse.status == Status.init) {
+              PopUpItems().toastfy(
+                  message: "Your internet connection is interrupted.",
+                  color: HexColor.fromHex(ColorConst.error100),
+                  type: ToastificationType.error);
+            }
+          });
+        }
+      }
+
+      /// LoginCheck
+      if (event is LoginCheck) {
+        bool onlineStatus = await connectionStatus.checkConnection();
+        if (onlineStatus) {
+          emit(state.copyWith(isLogin: DynamicBlocData.loading()));
+
+          emit(state.copyWith(
+              isLogin: DynamicBlocData.success(value: event.isLogin)));
+        } else {
+          connectionStatus.connectionChange.listen((onlineStatus) {
+            if (onlineStatus && state.authResponse.status == Status.init) {
+              add(const IsCheckedTc(isChecked: false));
+            }
+          });
+        }
+      }
+
+      /// resend OTP
+      if (event is ResendOTP) {
+        bool onlineStatus = await connectionStatus.checkConnection();
+        if (onlineStatus) {
+          showLoading();
+          emit(state.copyWith(resendOTP: DynamicBlocData.loading()));
+          ApiReturnModel? apiResp =
+              await AuthRepo().resendOTP(email: event.email);
+          if (apiResp?.statusCode == HttpStatusCodes.HTTP_200_OK) {
+            emit(state.copyWith(
+                resendOTP:
+                    DynamicBlocData<ApiReturnModel>.success(value: apiResp)));
+          } else {
+            emit(state.copyWith(
+                resendOTP: DynamicBlocData<ApiReturnModel>.error(
+                    message: apiResp?.message ?? "")));
+          }
+          PopUpItems().toastfy(
+              message:
+                  ValueHandler().get_error_msg(value: apiResp?.message ?? ""),
+              color: HexColor.fromHex(ColorConst.error100),
+              type: ToastificationType.info,durationSeconds: 5);
+          BuildContext context = CurrentContext().context;
+          if (Navigator.of(context).canPop()) {
+            Navigator.pop(context);
           }
         } else {
           connectionStatus.connectionChange.listen((onlineStatus) {

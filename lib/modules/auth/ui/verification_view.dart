@@ -91,12 +91,13 @@ class _VerificationViewState extends State<VerificationView> {
                                       horizontal: 16, vertical: 16),
                                   decoration: BoxDecoration(
                                     border: Border.all(color: Colors.white),
-                                    color:
-                                        HexColor.fromHex(ColorConst.baseHexColor),
+                                    color: HexColor.fromHex(
+                                        ColorConst.baseHexColor),
                                     borderRadius: BorderRadius.circular(12),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: HexColor.fromHex(ColorConst.grey4),
+                                        color:
+                                            HexColor.fromHex(ColorConst.grey4),
                                         blurRadius: 2.0,
                                         offset: const Offset(0, 2),
                                         spreadRadius: 1,
@@ -107,11 +108,12 @@ class _VerificationViewState extends State<VerificationView> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 4, vertical: 4),
                                     child: CustomTextEnum(
-                                      TextUtils.verification_code_des.replaceAll(
-                                          "##",
-                                          ValueHandler()
-                                                  .stringify(widget.email) ??
-                                              ""),
+                                      TextUtils.verification_code_des
+                                          .replaceAll(
+                                              "##",
+                                              ValueHandler().stringify(
+                                                      widget.email) ??
+                                                  ""),
                                       color: HexColor.fromHex(ColorConst.white),
                                     ).textSM(),
                                   ),
@@ -120,8 +122,8 @@ class _VerificationViewState extends State<VerificationView> {
                                   // top: 30,
                                   left: -20,
                                   child: CircleAvatar(
-                                    backgroundColor:
-                                        HexColor.fromHex(ColorConst.light_green),
+                                    backgroundColor: HexColor.fromHex(
+                                        ColorConst.light_green),
                                     radius: 20,
                                     child: Icon(LucideIcons.check,
                                         color:
@@ -179,7 +181,8 @@ class _VerificationViewState extends State<VerificationView> {
                               activeFillColor: Colors.white,
                             ),
                             cursorColor: Colors.black,
-                            animationDuration: const Duration(milliseconds: 300),
+                            animationDuration:
+                                const Duration(milliseconds: 300),
                             enableActiveFill: true,
                             errorAnimationController: errorController,
                             controller: otp,
@@ -223,10 +226,13 @@ class _VerificationViewState extends State<VerificationView> {
                                 radius: 12,
                                 size: Size(100, 48),
                                 child: CustomTextEnum(TextUtils.resend,
-                                        color: HexColor.fromHex(ColorConst.white))
+                                        color:
+                                            HexColor.fromHex(ColorConst.white))
                                     .textSM(),
                                 onPressed: () {
-                                  // CustomRoute().goto(RouteName.verification);
+                                  context
+                                      .read<AuthBloc>()
+                                      .add(ResendOTP(email: widget.email));
                                 }),
                           ],
                         ),
@@ -250,31 +256,38 @@ class _VerificationViewState extends State<VerificationView> {
                             spreadRadius: 1),
                       ]),
                   child: CustomGOEButton(
-                      backGroundColor: HexColor.fromHex(ColorConst.baseHexColor),
+                      backGroundColor:
+                          HexColor.fromHex(ColorConst.baseHexColor),
                       radius: 12,
                       size: Size(ScreenUtils.aw, 48),
-                      onPressed: state.verifyOTPResponse.status == Status.loading
-                          ? null
-                          : () {
-                        bool? validateForm = formKey.currentState?.validate();
-                        if (validateForm == true) {
-                          Map<String, String> data = {
-                            "email": widget.email,
-                            "otp": otp.text
-                          };
-                          context.read<AuthBloc>().add(VerifyOTP(request: data));
-                        }
-                      },
-                      child: state.verifyOTPResponse.status==Status.loading?CircularProgressIndicator() :CustomTextEnum(
-                        TextUtils.verify,
-                        color: HexColor.fromHex(ColorConst.white),
-                      ).textSM()),
+                      onPressed:
+                          state.verifyOTPResponse.status == Status.loading
+                              ? null
+                              : () {
+                                  bool? validateForm =
+                                      formKey.currentState?.validate();
+                                  if (validateForm == true) {
+                                    Map<String, String> data = {
+                                      "email": widget.email,
+                                      "otp": otp.text
+                                    };
+                                    context
+                                        .read<AuthBloc>()
+                                        .add(VerifyOTP(request: data));
+                                  }
+                                },
+                      child: state.verifyOTPResponse.status == Status.loading
+                          ? CircularProgressIndicator()
+                          : CustomTextEnum(
+                              TextUtils.verify,
+                              color: HexColor.fromHex(ColorConst.white),
+                            ).textSM()),
                 )
               ],
             ),
           );
         },
       ),
-);
+    );
   }
 }
