@@ -1,7 +1,7 @@
 part of 'auth_bloc.dart';
 
 class AuthState extends Equatable {
-  final DynamicBlocData<CommonResponse> authResponse;
+  final DynamicBlocData<ApiReturnModel> authResponse;
   final DynamicBlocData<UserToken> verifyOTPResponse;
   final DynamicBlocData<bool> isCheckedTC;
 
@@ -12,7 +12,7 @@ class AuthState extends Equatable {
   });
 
   AuthState copyWith({
-    DynamicBlocData<CommonResponse>? authResponse,
+    DynamicBlocData<ApiReturnModel>? authResponse,
     DynamicBlocData<UserToken>? verifyOTPResponse,
     DynamicBlocData<bool>? isCheckedTC,
   }) {

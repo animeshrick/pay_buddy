@@ -1,6 +1,13 @@
 class TextUtils {
+
   // ignore: non_constant_identifier_names
-  static String sign_out = "Sign Out";
+  static String sign_out = "Log Out";
+
+  // ignore: non_constant_identifier_names
+  static String sign_out_title = "Are you sure you want to log out?";
+
+  // ignore: non_constant_identifier_names
+  static String sign_out_content = "Logging out will end your current session. You can log in again anytime to access your account.";
 
   // ignore: non_constant_identifier_names
   static String settings = "Settings";
