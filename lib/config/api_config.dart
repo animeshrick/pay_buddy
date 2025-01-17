@@ -1,9 +1,5 @@
-import 'package:flutter/foundation.dart';
-
-import '../const/api_url_const.dart';
 import '../data/model/app_type_version_param.dart';
-import '../data/model/headers.dart';
-import '../storage/user_preference.dart';
+import '../service/TokenService/token_service.dart';
 import 'app_config.dart';
 
 class ApiConfig {
@@ -11,6 +7,10 @@ class ApiConfig {
   Map<String, String> getHeaders ()=> {
     "Content-Type": "application/json",
     "Accept": "application/json",
+  };
+
+  Future<Map<String, String>> getHeadersWithToken ()  async => {
+    'Authorization': "Bearer ${(await TokenService().getToken())?.refresh??""}"
   };
   // Future<Map<String, String>> getHeaders(
   //     {bool? isPinCodeRequired, bool? isSearchUrl, bool? isArticleUrl}) async {

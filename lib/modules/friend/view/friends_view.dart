@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pay_buddy/const/assets_const.dart';
 import 'package:pay_buddy/extension/hex_color.dart';
 import 'package:pay_buddy/extension/spacing.dart';
+import 'package:pay_buddy/utils/pop_up_items.dart';
 import 'package:pay_buddy/widget/custom_image.dart';
 import 'package:pay_buddy/widget/custom_text.dart';
 import 'package:pay_buddy/widget/dash_horizontal_divider.dart';
@@ -34,26 +35,35 @@ class _FriendsViewState extends State<FriendsView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                CustomRoute().goto(RouteName.receivedFriendRequests);
+              },
               child: CustomContainer(
                   width: 150,
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(6),
                       bottomLeft: Radius.circular(6)),
-                  color: HexColor.fromHex(ColorConst.lighter_baseHexColor),
+                  color: HexColor.fromHex(ColorConst.gray800),
                   padding: const EdgeInsets.all(6),
                   child: Center(
-                      child:
-                          CustomTextEnum("Received Requests").textMediumSM())),
+                      child: Badge(
+                          backgroundColor:
+                              HexColor.fromHex(ColorConst.error600),
+                          alignment: Alignment.topRight,
+                          isLabelVisible: true,
+                          child: CustomTextEnum("Received Requests")
+                              .textMediumSM()))),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                CustomRoute().goto(RouteName.sentFriendRequests);
+              },
               child: CustomContainer(
                   width: 150,
                   borderRadius: const BorderRadius.only(
                       topRight: Radius.circular(6),
                       bottomRight: Radius.circular(6)),
-                  color: HexColor.fromHex(ColorConst.complimentary50),
+                  color: HexColor.fromHex(ColorConst.brand800),
                   padding: const EdgeInsets.all(6),
                   child: Center(
                       child: CustomTextEnum("Sent Requests").textMediumSM())),
@@ -78,7 +88,7 @@ class _FriendsViewState extends State<FriendsView> {
             itemCount: 3,
             itemBuilder: (context, index) {
               return CustomContainer(
-                color: HexColor.fromHex(ColorConst.white),
+                color: HexColor.fromHex(ColorConst.gray500),
                 borderRadius: const BorderRadius.all(Radius.circular(6)),
                 boxShadow: [
                   BoxShadow(
@@ -108,13 +118,20 @@ class _FriendsViewState extends State<FriendsView> {
                     ),
                     CustomGOEButton(
                         size: Size(ScreenUtils.aw * 0.5, 35),
-                        radius: 6,
+                        radius: 0,
                         backGroundColor: HexColor.fromHex(ColorConst.gray200),
-                        onPressed: () {},
+                        onPressed: () {
+                          PopUpItems().cupertinoPopup(
+                              title: "Remove Animesh!",
+                              content:
+                                  "Are you sure you want to remove this friend?",
+                              cancelBtnPresses: () {},
+                              okBtnPressed: () {});
+                        },
                         child: Center(
                           child: CustomTextEnum("Remove Friend",
                                   color:
-                                      HexColor.fromHex(ColorConst.baseHexColor))
+                                      HexColor.fromHex(ColorConst.primaryDark))
                               .textSM(),
                         )),
                   ],
@@ -136,7 +153,7 @@ class _FriendsViewState extends State<FriendsView> {
             child: CustomTextEnum(
               "Add a new Friend",
               color: HexColor.fromHex(ColorConst.white),
-            ).textSM(),
+            ).textMediumMD(),
           ),
         ),
       ],

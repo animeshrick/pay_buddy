@@ -14,7 +14,7 @@ import '../utils/screen_utils.dart';
 class AppConfig {
   Future<String> getAppVersion() async {
     if (kIsWeb && kDebugMode) {
-      return "5.0";
+      return "1.0";
     }
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.version;
@@ -22,7 +22,7 @@ class AppConfig {
 
   Future<String> getAppVersionCode() async {
     if (kIsWeb && kDebugMode) {
-      return "55";
+      return "1";
     }
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.buildNumber;

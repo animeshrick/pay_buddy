@@ -1,5 +1,5 @@
 class ColorConst {
-  static String baseHexColor = "#5b62ff";
+  static String baseHexColor = "#6111a9";
   static String baseHexColor_shade_2 = "#6b72ff";
   static String lighter_baseHexColor = "#dee9f5";
 

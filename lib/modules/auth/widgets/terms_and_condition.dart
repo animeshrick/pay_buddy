@@ -26,8 +26,8 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
               child: RichText(
                 text: TextSpan(
                   text: 'By proceeding, you agree to our ',
-                  style: TextStyle(
-                      color: HexColor.fromHex(ColorConst.primaryDark)),
+                  // style: TextStyle(
+                  //     color: HexColor.fromHex(ColorConst.white)),
                   children: [
                     TextSpan(
                       text: 'Terms and Conditions',
@@ -40,7 +40,12 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              title: const Text('Terms and Conditions'),
+                              title: Text(
+                                'Terms and Conditions',
+                                style: TextStyle(
+                                    color: HexColor.fromHex(
+                                        ColorConst.baseHexColor)),
+                              ),
                               content: const Text(
                                   'Details about Terms and Conditions go here.'),
                               actions: [
@@ -55,8 +60,8 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
                     ),
                     TextSpan(
                       text: ' and ',
-                      style: TextStyle(
-                          color: HexColor.fromHex(ColorConst.primaryDark)),
+                      style:
+                          TextStyle(color: HexColor.fromHex(ColorConst.white)),
                     ),
                     TextSpan(
                       text: 'Privacy Policy',

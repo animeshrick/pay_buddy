@@ -24,44 +24,46 @@ class _DashboardViewState extends State<DashboardView> {
       create: (context) => DashboardBloc(),
       child: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
-          return Scaffold(
-            appBar: AppBar(
-              elevation: 0,
-              actions: [
-                if (DashboardUtils.instance.currentPageIndex != 2) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 16),
-                    child: CustomIconButton(
-                        icon: Icon(
-                          LucideIcons.search,
-                          color: HexColor.fromHex(ColorConst.gray500),
-                        ),
-                        onPressed: () {
-                          switch (DashboardUtils.instance.currentPageIndex) {
-                            case 0:
-                              CustomRoute().goto(RouteName.group_search);
-                              break;
-                            case 1:
-                              CustomRoute().goto(RouteName.friends_search);
-                              break;
-                          }
-                        }),
-                  )
+          return SafeArea(
+            child: Scaffold(
+              appBar: DashboardUtils.instance.currentPageIndex ==2? null: AppBar(
+                elevation: 0,
+                actions: [
+                  if (DashboardUtils.instance.currentPageIndex != 2) ...[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 16),
+                      child: CustomIconButton(
+                          icon: Icon(
+                            LucideIcons.search,
+                            color: HexColor.fromHex(ColorConst.gray500),
+                          ),
+                          onPressed: () {
+                            switch (DashboardUtils.instance.currentPageIndex) {
+                              case 0:
+                                CustomRoute().goto(RouteName.group_search);
+                                break;
+                              case 1:
+                                CustomRoute().goto(RouteName.friends_search);
+                                break;
+                            }
+                          }),
+                    )
+                  ],
                 ],
-              ],
+              ),
+              bottomNavigationBar: NavigationBar(
+                onDestinationSelected: (int index) {
+                  context
+                      .read<DashboardBloc>()
+                      .add(PageChangeEvent(index: index));
+                },
+                indicatorColor: HexColor.fromHex(ColorConst.baseHexColor_shade_2),
+                selectedIndex: DashboardUtils.instance.currentPageIndex,
+                destinations: DashboardUtils.instance.botton_nav_options,
+              ),
+              body: DashboardUtils.instance.pages
+                  .elementAt(DashboardUtils.instance.currentPageIndex),
             ),
-            bottomNavigationBar: NavigationBar(
-              onDestinationSelected: (int index) {
-                context
-                    .read<DashboardBloc>()
-                    .add(PageChangeEvent(index: index));
-              },
-              indicatorColor: HexColor.fromHex(ColorConst.baseHexColor_shade_2),
-              selectedIndex: DashboardUtils.instance.currentPageIndex,
-              destinations: DashboardUtils.instance.botton_nav_options,
-            ),
-            body: DashboardUtils.instance.pages
-                .elementAt(DashboardUtils.instance.currentPageIndex),
           );
         },
       ),

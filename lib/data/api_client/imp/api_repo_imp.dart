@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
+import '../../../const/http_status_code.dart';
 import '../../../extension/logger_extension.dart';
 import '../../model/api_return_model.dart';
 import '../repo/api_repo.dart';
@@ -91,7 +92,7 @@ class ApiRepoImp extends ApiRepo {
               .send()
               .timeout(timeout());
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == HttpStatusCodes.HTTP_200_OK) {
         String responseReturn = await response.stream.bytesToString();
         AppLog.i(tag: "$tag Response", responseReturn, time: DateTime.now());
         AppLog.i(

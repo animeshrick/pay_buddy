@@ -9,8 +9,12 @@ class ApiUrlConst {
 
   static String hostUrl = "https://www.stg-googleapis.com/";
 
+  static String refresh_token = "$auth_api_url/refresh-token";
+
   static String register_otp = "$auth_api_url/create-users";
   static String verify_otp = "$auth_api_url/verify-otp";
   static String login = "$auth_api_url/sign-in";
   static String resend_otp = "$auth_api_url/send-otp";
+
+  static String user_details = "$auth_api_url/user-details";
 }

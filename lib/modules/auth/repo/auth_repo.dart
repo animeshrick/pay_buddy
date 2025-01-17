@@ -1,19 +1,13 @@
 import 'dart:convert';
 
 import 'package:pay_buddy/const/http_status_code.dart';
-import 'package:pay_buddy/utils/text_utils.dart';
-import 'package:toastification/toastification.dart';
 
 import '../../../config/api_config.dart';
 import '../../../const/api_url_const.dart';
-import '../../../const/color_const.dart';
 import '../../../data/api_client/imp/api_repo_imp.dart';
 import '../../../data/api_client/repo/api_repo.dart';
 import '../../../data/model/api_return_model.dart';
-import '../../../extension/hex_color.dart';
 import '../../../extension/logger_extension.dart';
-import '../../../service/value_handler.dart';
-import '../../../utils/pop_up_items.dart';
 import '../model/user_token.dart';
 
 class AuthRepo {

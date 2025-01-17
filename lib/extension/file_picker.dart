@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pay_buddy/service/value_handler.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../const/color_const.dart';
 import '../data/model/custom_file.dart';
@@ -22,12 +22,11 @@ import '../service/context_service.dart';
 import '../utils/pop_up_items.dart';
 import '../widget/custom_text.dart';
 import '../widget/loading_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class CustomFilePicker {
   final int _maxFileSize = 5;
-  final String _notJpgErrorMsg =
-      "Invalid file format. Please select an image in JPG format";
+  // final String _notJpgErrorMsg =
+  //     "Invalid file format. Please select an image in JPG format";
 
   Future<CustomFile?> pickSingleFile({bool? noDocs}) async {
     try {

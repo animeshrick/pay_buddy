@@ -47,11 +47,15 @@ class _FriendsSearchViewState extends State<FriendsSearchView> {
                   .textSM(),
               CustomTextSpanEnum(
                       text: search.text,
-                      color: HexColor.fromHex(ColorConst.primaryDark))
+                      color: HexColor.fromHex(ColorConst.white))
                   .textSemiboldSM(),
               CustomTextSpanEnum(
-                      text: "` found. (5 users)",
+                      text: "` found.",
                       color: HexColor.fromHex(ColorConst.gray500))
+                  .textSM(),
+              CustomTextSpanEnum(
+                      text: " (2 users)",
+                      color: HexColor.fromHex(ColorConst.white))
                   .textSM(),
             ],
           ),

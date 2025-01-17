@@ -10,6 +10,8 @@ import 'package:pay_buddy/modules/search/modules/group_search/view/group_search_
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
 import '../modules/auth/ui/auth.dart';
+import '../modules/friend/modules/received_friend_requests/received_friend_requests.dart';
+import '../modules/friend/modules/sent_friend_requests/sent_friend_requests.dart';
 import '../modules/splash/splash.dart';
 import '../utils/text_utils.dart';
 import '../widget/custom_text.dart';
@@ -88,6 +90,20 @@ class RouterManager {
         path: RouteName.addNewGroup,
         builder: (BuildContext context, GoRouterState state) {
           return AddNewGroup();
+        },
+      ),
+      GoRoute(
+        name: RouteName.receivedFriendRequests,
+        path: RouteName.receivedFriendRequests,
+        builder: (BuildContext context, GoRouterState state) {
+          return ReceivedFriendRequests();
+        },
+      ),
+      GoRoute(
+        name: RouteName.sentFriendRequests,
+        path: RouteName.sentFriendRequests,
+        builder: (BuildContext context, GoRouterState state) {
+          return SentFriendRequests();
         },
       ),
       // GoRoute(

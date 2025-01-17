@@ -1,112 +1,67 @@
-import '../../extension/logger_extension.dart';
-import '../../service/value_handler.dart';
+import 'package:pay_buddy/service/value_handler.dart';
 
 class UserModel {
-  String? addLine;
-  int? age;
-  String? alternativeContactNo;
-  String? city;
-  String? dOB;
-  String? emailId;
-  String? firstName;
-  String? fullName;
-  String? gender;
-  String? landmark;
-  String? lastName;
-  String? maritalStatus;
-  String? middleName;
-  String? mobileNo;
-  String? pinCode;
-  int? smartReportExists;
-  String? stateName;
-  String? status;
-  String? userId;
-  String? custUserId;
-  String? lastPincode;
+  String? id;
+  String? username;
+  String? email;
+  String? fname;
+  String? lname;
+  String? dob;
+  String? phone;
+  String? image;
+  bool? isActive;
+  String? createdAt;
+  String? updatedAt;
   String? accessToken;
-  String? rtoken;
+  String? refreshToken;
 
-  UserModel({
-    this.addLine,
-    this.age,
-    this.alternativeContactNo,
-    this.city,
-    this.dOB,
-    this.emailId,
-    this.firstName,
-    this.fullName,
-    this.gender,
-    this.landmark,
-    this.lastName,
-    this.maritalStatus,
-    this.middleName,
-    this.mobileNo,
-    this.pinCode,
-    this.smartReportExists,
-    this.stateName,
-    this.status,
-    this.userId,
-    this.custUserId,
-    this.lastPincode,
-    this.accessToken,
-    this.rtoken,
-  });
+  UserModel(
+      {this.id,
+      this.username,
+      this.email,
+      this.fname,
+      this.lname,
+      this.dob,
+      this.phone,
+      this.image,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt,
+      this.accessToken,
+      this.refreshToken,
+      });
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    try {
-      addLine = json['AddLine'];
-      age = json['Age'];
-      alternativeContactNo = json['AlternativeContactNo'];
-      city = json['City'];
-      dOB = json['DOB'];
-      emailId = json['EmailId'];
-      firstName = json['FirstName'];
-      fullName = json['FullName'];
-      gender = json['Gender'];
-      landmark = json['Landmark'];
-      lastName = json['LastName'];
-      maritalStatus = json['MaritalStatus'];
-      middleName = json['MiddleName'];
-      mobileNo = ValueHandler().stringify(json['MobileNo']);
-      pinCode = ValueHandler().stringify(json['PinCode']);
-      smartReportExists = json['SmartReportExists'];
-      stateName = json['StateName'];
-      status = json['Status'];
-      userId = ValueHandler().stringify(json['UserId']);
-      custUserId = json['CustUserId'];
-      lastPincode = ValueHandler().stringify(json['LastPincode']);
-      accessToken = json['access_token'];
-      rtoken = json['rtoken'];
-    } catch (e, stacktrace) {
-      AppLog.e(e.toString(), error: e, stackTrace: stacktrace);
-    }
+    id = ValueHandler().stringify(json['id']);
+    username = json['username'];
+    email = json['email'];
+    fname = json['fname'];
+    lname = json['lname'];
+    dob = ValueHandler().stringify(json['dob']);
+    phone = ValueHandler().stringify(json['phone']);
+    image = json['image'];
+    isActive = ValueHandler().boolify(json['is_active']);
+    createdAt = ValueHandler().stringify(json['created_at']);
+    updatedAt = ValueHandler().stringify(json['updated_at']);
+    accessToken = ValueHandler().stringify(json['access']);
+    refreshToken = ValueHandler().stringify(json['refresh']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['AddLine'] = addLine;
-    data['Age'] = age;
-    data['AlternativeContactNo'] = alternativeContactNo;
-    data['City'] = city;
-    data['DOB'] = dOB;
-    data['EmailId'] = emailId;
-    data['FirstName'] = firstName;
-    data['FullName'] = fullName;
-    data['Gender'] = gender;
-    data['Landmark'] = landmark;
-    data['LastName'] = lastName;
-    data['MaritalStatus'] = maritalStatus;
-    data['MiddleName'] = middleName;
-    data['MobileNo'] = mobileNo;
-    data['PinCode'] = pinCode;
-    data['SmartReportExists'] = smartReportExists;
-    data['StateName'] = stateName;
-    data['Status'] = status;
-    data['UserId'] = userId;
-    data['CustUserId'] = custUserId;
-    data['LastPincode'] = lastPincode;
-    data['access_token'] = accessToken;
-    data['rtoken'] = rtoken;
+    data['id'] = id;
+    data['username'] = username;
+    data['email'] = email;
+    data['fname'] = fname;
+    data['lname'] = lname;
+    data['dob'] = dob;
+    data['phone'] = phone;
+    data['image'] = image;
+    data['is_active'] = isActive;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['access'] = accessToken;
+    data['refresh'] = refreshToken;
     return data;
   }
 }

@@ -28,8 +28,8 @@ class HeaderSection extends StatelessWidget {
           ),
           CustomTextEnum(
             TextUtils.appTitle,
-            color: HexColor.fromHex(ColorConst.baseHexColor),
-          ).textMediumSM(),
+            color: HexColor.fromHex(ColorConst.white),
+          ).textSemiboldXL(),
         ],
       ),
     );

@@ -138,6 +138,31 @@ class ValueHandler {
     return value;
   }
 
+  setNullTextToZero(src) {
+    return isTextNotEmptyOrNull(src) ? src : 0;
+  }
+
+  String setNullTextToBlank(final String input) {
+    return !isTextNotEmptyOrNull(input) ? "" : input;
+  }
+
+  String? setNullBlankTextToNullAbleString(final String? input) {
+    return !isTextNotEmptyOrNull(input) ? null : input;
+  }
+
+  bool isNonZeroNumericValue(dynamic txt) {
+    String? res = stringify(txt);
+    if (isTextNotEmptyOrNull(res)) {
+      try {
+        return num.parse(res!) > 0;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+
   double dp({required double val, required int places}) {
     String temp = val.toStringAsFixed(places);
     return double.parse(temp);

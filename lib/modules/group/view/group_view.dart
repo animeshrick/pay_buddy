@@ -14,10 +14,16 @@ import 'package:pay_buddy/widget/custom_ui.dart';
 import '../../../utils/screen_utils.dart';
 import '../../../widget/custom_button.dart';
 
-class GroupView extends StatelessWidget {
-  List group = [1, 2];
+class GroupView extends StatefulWidget {
 
-  GroupView({super.key});
+  const GroupView({super.key});
+
+  @override
+  State<GroupView> createState() => _GroupViewState();
+}
+
+class _GroupViewState extends State<GroupView> {
+  List group = [1, 2];
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +114,7 @@ class GroupView extends StatelessWidget {
               child: CustomTextEnum(
                 "Add a new Group",
                 color: HexColor.fromHex(ColorConst.white),
-              ).textSM(),
+              ).textMediumMD(),
             ),
           ),
         ],

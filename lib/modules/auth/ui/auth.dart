@@ -40,7 +40,7 @@ class _AuthState extends State<Auth> {
       child: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: HexColor.fromHex(ColorConst.white),
+            // backgroundColor: HexColor.fromHex(ColorConst.baseHexColor),
             body: Column(
               children: [
                 Expanded(
@@ -55,12 +55,12 @@ class _AuthState extends State<Auth> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: CustomTextEnum(
-                                "Hi!",
+                                "Welcome back!",
                                 // "Welcome to `${TextUtils.appTitle}` – Your smart companion for managing expenses effortlessly! Let's help you track, plan, and save smarter. Ready to take control of your finances? Let's get started!",
                                 color:
-                                    HexColor.fromHex(ColorConst.baseHexColor),
+                                    HexColor.fromHex(ColorConst.white),
                                 lineGapNeeded: true,
-                              ).textBoldLG(),
+                              ).displayBoldXS(),
                             ),
                           ),
                           Center(
@@ -68,31 +68,16 @@ class _AuthState extends State<Auth> {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: CustomTextEnum(
-                                "We want to know about you a little bit.",
+                                "Please login to continue",
                                 // "Welcome to `${TextUtils.appTitle}` – Your smart companion for managing expenses effortlessly! Let's help you track, plan, and save smarter. Ready to take control of your finances? Let's get started!",
                                 color:
-                                    HexColor.fromHex(ColorConst.baseHexColor),
+                                    HexColor.fromHex(ColorConst.gray400),
                                 lineGapNeeded: true,
                               ).textSemiboldSM(),
                             ),
                           ),
                           34.ph,
                           Container(
-                            // width: ScreenUtils.aw * 0.7,
-                            // height: isChecked == false ? 235 : 160,
-                            decoration: BoxDecoration(
-                                // border: Border.all(
-                                //     color: HexColor.fromHex(ColorConst.white)),
-                                color: HexColor.fromHex(
-                                    ColorConst.lighter_baseHexColor),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: HexColor.fromHex(ColorConst.grey4),
-                                      blurRadius: 5.0,
-                                      offset: const Offset(0, 2),
-                                      spreadRadius: 1),
-                                ]),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 24),
                             margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -152,8 +137,8 @@ class _AuthState extends State<Auth> {
                                     const Spacer(),
                                     CustomTextButton(
                                         child: state.isLogin.value == true
-                                            ? CustomTextEnum("Register").textSM()
-                                            : CustomTextEnum("Login")
+                                            ? CustomTextEnum("Register",color: Colors.white).textSM()
+                                            : CustomTextEnum("Login",color: Colors.white)
                                                 .textSM(),
                                         onPressed: () {
                                           if (state.isLogin.value == true) {

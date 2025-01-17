@@ -134,9 +134,10 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           colorSchemeSeed: HexColor.fromHex(ColorConst.baseHexColor),
           useMaterial3: true,
-          brightness: Brightness.light,
+          brightness: Brightness.dark,
         ),
         darkTheme: ThemeData(
+          scaffoldBackgroundColor: Colors.black,
           colorSchemeSeed: HexColor.fromHex(ColorConst.baseHexColor),
           useMaterial3: true,
           brightness: Brightness.dark,

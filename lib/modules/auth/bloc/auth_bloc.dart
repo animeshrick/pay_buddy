@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pay_buddy/const/http_status_code.dart';
 import 'package:pay_buddy/modules/auth/model/user_token.dart';
 import 'package:pay_buddy/router/custom_router/custom_route.dart';
+import 'package:pay_buddy/service/TokenService/token_service.dart';
 import 'package:pay_buddy/service/context_service.dart';
 import 'package:pay_buddy/service/value_handler.dart';
 import 'package:pay_buddy/storage/local_preferences.dart';
@@ -150,9 +151,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 loginResponse:
                     DynamicBlocData<UserToken>.success(value: apiResp)));
 
-            await LocalPreferences().setString(
-                key: LocalPreferences.token,
-                value: jsonEncode(apiResp?.token ?? Token()));
+            await TokenService().setToken(token: apiResp?.token);
+
+            // UserModel user = UserModel();
+            // user.accessToken = apiResp?.token?.access ?? "";
+            // user.accessToken = apiResp?.token?.refresh ?? "";
+            // await UserPreference().saveData(userModel: user);
+
             CustomRoute().clearAndNavigate(RouteName.dashboardView);
           } else {
             PopUpItems().toastfy(

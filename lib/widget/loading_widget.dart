@@ -23,7 +23,7 @@ class LoadingWidget extends StatelessWidget {
       color: backgroundColor,
       width: width,
       height: height,
-      child: child ?? CircularProgressIndicator(),
+      child: child ?? const CircularProgressIndicator(color: Colors.white),
     );
   }
 }
@@ -31,7 +31,8 @@ class LoadingWidget extends StatelessWidget {
 void showLoading() {
   showDialog(
     context: CurrentContext().context,
-    builder: (context) => Center(child: CircularProgressIndicator()),
+    builder: (context) =>
+        const Center(child: CircularProgressIndicator(color: Colors.white)),
     barrierDismissible: false,
   );
 }
