@@ -1,5 +1,4 @@
 import '../data/model/app_type_version_param.dart';
-import '../service/TokenService/token_service.dart';
 import 'app_config.dart';
 
 class ApiConfig {
@@ -8,9 +7,12 @@ class ApiConfig {
     "Content-Type": "application/json",
     "Accept": "application/json",
   };
+  String staticToken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MjI0MzIzLCJpYXQiOjE3MzcxMzc5MjMsImp0aSI6ImViZjVlYjNjYzdjZDRkN2M4ZjJhYzIyMDQwNzEwMzQzIiwidXNlcl9pZCI6IjIyN2IxOTdiLWNmOWQtNDhkOS04OWY2LWFlYTg4OWFjN2E5MSJ9.vSG9GDWvFta8pexe4jzGZ_TrTrZI83Xdk_WZXUYCTbo";
 
   Future<Map<String, String>> getHeadersWithToken ()  async => {
-    'Authorization': "Bearer ${(await TokenService().getToken())?.refresh??""}"
+    'Authorization': "Bearer $staticToken"
+    // 'Authorization': "Bearer ${(await TokenService().getToken())?.refresh??""}"
   };
   // Future<Map<String, String>> getHeaders(
   //     {bool? isPinCodeRequired, bool? isSearchUrl, bool? isArticleUrl}) async {

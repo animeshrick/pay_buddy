@@ -6,6 +6,7 @@ class ApiUrlConst {
   static String localhost_url = "http://192.168.1.2:8000";
 
   static String auth_api_url = "$baseUrl/auth/api/v2";
+  static String friend_api_url = "$baseUrl/friends/api/v2";
 
   static String hostUrl = "https://www.stg-googleapis.com/";
 
@@ -17,4 +18,6 @@ class ApiUrlConst {
   static String resend_otp = "$auth_api_url/send-otp";
 
   static String user_details = "$auth_api_url/user-details";
+
+  static String all_friend_list = "$friend_api_url/my-friends";
 }
