@@ -1,9 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:pay_buddy/const/color_const.dart';
 import 'package:pay_buddy/extension/hex_color.dart';
 import 'package:pay_buddy/extension/spacing.dart';
+import 'package:pay_buddy/router/router_name.dart';
+import 'package:pay_buddy/service/value_handler.dart';
 import 'package:pay_buddy/utils/pop_up_items.dart';
 import 'package:pay_buddy/utils/screen_utils.dart';
 import 'package:pay_buddy/utils/text_utils.dart';
@@ -31,7 +35,11 @@ class AccountView extends StatelessWidget {
                       color: Colors.yellow)
                   .textSM()
               : state.userDetails.status == Status.loading
-                  ? Center(child: LoadingWidget(width: 30,height: 30,))
+                  ? Center(
+                      child: LoadingWidget(
+                      width: 30,
+                      height: 30,
+                    ))
                   : Column(
                       children: [
                         Expanded(
@@ -49,7 +57,8 @@ class AccountView extends StatelessWidget {
                                     Row(
                                       children: [
                                         CircularProfileImage(
-                                          imageUrl: state.userDetails.value?.image,
+                                          imageUrl:
+                                              state.userDetails.value?.image,
                                           assetImage: AssetsConst.profile_image,
                                           radius: 25,
                                         ),
@@ -63,7 +72,8 @@ class AccountView extends StatelessWidget {
                                                     color: HexColor.fromHex(
                                                         ColorConst.primaryDark))
                                                 .textMediumSM(),
-                                            CustomTextEnum("${state.userDetails.value?.email}",
+                                            CustomTextEnum(
+                                                    "${state.userDetails.value?.email}",
                                                     color: HexColor.fromHex(
                                                         ColorConst.gray500))
                                                 .textSM(),
@@ -75,7 +85,21 @@ class AccountView extends StatelessWidget {
                                         borderColor: HexColor.fromHex(
                                             ColorConst.gray400),
                                         size: const Size(82, 35),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          // CustomRoute().goto(RouteName.updateAccount);
+                                          String path = RouteName.updateAccount;
+                                          kIsWeb
+                                              ? context.goNamed(path)
+                                              : context
+                                                  .pushNamed(path)
+                                                  .then((value) {
+                                                    if(ValueHandler().isTextNotEmptyOrNull(value)) {
+                                                      context
+                                                          .read<AccountBloc>()
+                                                          .add(UserDetails());
+                                                    }
+                                                });
+                                        },
                                         child: Row(
                                           children: [
                                             CustomTextEnum(

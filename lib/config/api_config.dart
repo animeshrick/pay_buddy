@@ -11,6 +11,8 @@ class ApiConfig {
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3MjI0MzIzLCJpYXQiOjE3MzcxMzc5MjMsImp0aSI6ImViZjVlYjNjYzdjZDRkN2M4ZjJhYzIyMDQwNzEwMzQzIiwidXNlcl9pZCI6IjIyN2IxOTdiLWNmOWQtNDhkOS04OWY2LWFlYTg4OWFjN2E5MSJ9.vSG9GDWvFta8pexe4jzGZ_TrTrZI83Xdk_WZXUYCTbo";
 
   Future<Map<String, String>> getHeadersWithToken ()  async => {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
     'Authorization': "Bearer $staticToken"
     // 'Authorization': "Bearer ${(await TokenService().getToken())?.refresh??""}"
   };

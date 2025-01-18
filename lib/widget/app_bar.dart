@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../const/color_const.dart';
-import '../extension/hex_color.dart';
 import 'custom_text.dart';
 
 class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
@@ -23,7 +21,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: CustomTextEnum(title).textSM(),
-      backgroundColor: backgroundColor ?? HexColor.fromHex(ColorConst.white),
+      backgroundColor: backgroundColor ?? Colors.black,
       actions: actions,
       leading: leading,
       elevation: elevation,

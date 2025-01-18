@@ -10,4 +10,5 @@ class RouteName {
   static const String receivedFriendRequests = "/receivedFriendRequests";
   static const String sentFriendRequests = "/sentFriendRequests";
   static const String addNewGroup = "/addNewGroup";
+  static const String updateAccount = "/updateAccount";
 }

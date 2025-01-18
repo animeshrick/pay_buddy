@@ -9,6 +9,7 @@ import 'package:pay_buddy/modules/search/modules/group_search/view/group_search_
 
 import '../const/color_const.dart';
 import '../extension/hex_color.dart';
+import '../modules/account/modules/update_account/view/update_account.dart';
 import '../modules/auth/ui/auth.dart';
 import '../modules/friend/modules/received_friend_requests/received_friend_requests.dart';
 import '../modules/friend/modules/sent_friend_requests/sent_friend_requests.dart';
@@ -104,6 +105,13 @@ class RouterManager {
         path: RouteName.sentFriendRequests,
         builder: (BuildContext context, GoRouterState state) {
           return SentFriendRequests();
+        },
+      ),
+      GoRoute(
+        name: RouteName.updateAccount,
+        path: RouteName.updateAccount,
+        builder: (BuildContext context, GoRouterState state) {
+          return UpdateAccount();
         },
       ),
       // GoRoute(

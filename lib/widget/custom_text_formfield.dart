@@ -99,7 +99,7 @@ class CustomTextFormField extends StatelessWidget {
                     : ColorConst.white)),
             decoration: InputDecoration(
               alignLabelWithHint: true,
-              filled: enabled == false ? true : null,
+              filled: enabled == false ? null : null,
               fillColor:
               enabled == false ? HexColor.fromHex(ColorConst.gray50) : null,
               counterText: "",

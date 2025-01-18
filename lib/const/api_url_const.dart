@@ -18,6 +18,7 @@ class ApiUrlConst {
   static String resend_otp = "$auth_api_url/send-otp";
 
   static String user_details = "$auth_api_url/user-details";
+  static String update_profile = "$auth_api_url/update-profile";
 
   static String all_friend_list = "$friend_api_url/my-friends";
 }

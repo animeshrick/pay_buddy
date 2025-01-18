@@ -54,6 +54,9 @@ class TextUtils {
   static String enter_phone_number = "Enter Phone Number";
 
   // ignore: non_constant_identifier_names
+  static String enter_dob = "Enter DOB";
+
+  // ignore: non_constant_identifier_names
   static String enter_username = "Enter Username";
 
   // ignore: non_constant_identifier_names
@@ -117,6 +120,9 @@ class TextUtils {
 
   // ignore: non_constant_identifier_names
   static String enter_email = "Enter Email";
+
+  // ignore: non_constant_identifier_names
+  static String enter_userName = "Enter Nickname";
 
   // ignore: non_constant_identifier_names
   static String resend = "Resend";
