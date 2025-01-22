@@ -1,4 +1,5 @@
 import '../data/model/app_type_version_param.dart';
+import '../service/TokenService/token_service.dart';
 import 'app_config.dart';
 
 class ApiConfig {
@@ -13,8 +14,8 @@ class ApiConfig {
   Future<Map<String, String>> getHeadersWithToken ()  async => {
     "Content-Type": "application/json",
     "Accept": "application/json",
-    'Authorization': "Bearer $staticToken"
-    // 'Authorization': "Bearer ${(await TokenService().getToken())?.refresh??""}"
+    // 'Authorization': "Bearer $staticToken"
+    'Authorization': "Bearer ${(await TokenService().getToken())?.access??""}"
   };
   // Future<Map<String, String>> getHeaders(
   //     {bool? isPinCodeRequired, bool? isSearchUrl, bool? isArticleUrl}) async {

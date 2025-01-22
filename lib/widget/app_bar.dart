@@ -21,7 +21,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: CustomTextEnum(title).textSM(),
-      backgroundColor: backgroundColor ?? Colors.black,
+      backgroundColor: backgroundColor ?? Colors.black12,
       actions: actions,
       leading: leading,
       elevation: elevation,

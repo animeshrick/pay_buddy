@@ -8,6 +8,7 @@ import 'package:pay_buddy/extension/hex_color.dart';
 import 'package:pay_buddy/extension/spacing.dart';
 import 'package:pay_buddy/router/router_name.dart';
 import 'package:pay_buddy/service/value_handler.dart';
+import 'package:pay_buddy/utils/an_error_state.dart';
 import 'package:pay_buddy/utils/pop_up_items.dart';
 import 'package:pay_buddy/utils/screen_utils.dart';
 import 'package:pay_buddy/utils/text_utils.dart';
@@ -31,9 +32,7 @@ class AccountView extends StatelessWidget {
       child: BlocBuilder<AccountBloc, AccountState>(
         builder: (context, state) {
           return state.userDetails.status == Status.error
-              ? CustomTextEnum(state.userDetails.message ?? "Issue in account",
-                      color: Colors.yellow)
-                  .textSM()
+              ? AnErrorState(errorMessage: state.userDetails.message)
               : state.userDetails.status == Status.loading
                   ? Center(
                       child: LoadingWidget(
@@ -93,11 +92,13 @@ class AccountView extends StatelessWidget {
                                               : context
                                                   .pushNamed(path)
                                                   .then((value) {
-                                                    if(ValueHandler().isTextNotEmptyOrNull(value)) {
-                                                      context
-                                                          .read<AccountBloc>()
-                                                          .add(UserDetails());
-                                                    }
+                                                  if (ValueHandler()
+                                                      .isTextNotEmptyOrNull(
+                                                          value)) {
+                                                    context
+                                                        .read<AccountBloc>()
+                                                        .add(UserDetails());
+                                                  }
                                                 });
                                         },
                                         child: Row(
